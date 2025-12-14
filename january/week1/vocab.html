@@ -5,38 +5,77 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Booha Study Decks – January Week 1 – Vocabulary</title>
 <meta name="theme-color" content="#7c3aed">
-<link rel="icon" type="image/png" href="booha-ghost.png">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&display=swap" rel="stylesheet" />
+<link rel="icon" type="image/png" href="BoohaYellow.png">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Noto+Sans+JP:wght@500;700;900&display=swap" rel="stylesheet" />
+
 <style>
-:root{--radius:28px;--bg:url('https://static.wixstatic.com/media/fa59b9_f8915cfdff974d7883c730f51f577d31~mv2.jpg');}
+:root{
+  --radius:28px;
+  --bg:url('https://static.wixstatic.com/media/fa59b9_f8915cfdff974d7883c730f51f577d31~mv2.jpg');
+}
+
+/* Reset */
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{
   min-height:100%;
-  font-family:system-ui,Segoe UI,Roboto,Inter,sans-serif;
   background:linear-gradient(160deg,rgba(124,58,237,.1),rgba(34,211,238,.1)),#0f172a;
-  color:#111;
   overflow:auto;
   -webkit-overflow-scrolling:touch;
 }
-body::before{
-  content:"";position:fixed;inset:0;z-index:-1;
-  background-image:var(--bg);background-size:cover;background-position:center;opacity:.25;
+
+body{
+  font-family:system-ui,Segoe UI,Roboto,Inter,sans-serif;
+  color:#111;
 }
+
+body::before{
+  content:"";
+  position:fixed;inset:0;z-index:-1;
+  background-image:var(--bg);
+  background-size:cover;background-position:center;
+  opacity:.25;
+}
+
 .back-btn{
   position:fixed;top:14px;left:14px;z-index:1000;
   display:inline-flex;align-items:center;gap:.5rem;
   padding:.55rem .9rem;border-radius:999px;background:#0b1020;color:#fff;
   border:1px solid rgba(255,255,255,.25);box-shadow:0 10px 25px rgba(0,0,0,.35);
-  font-weight:800;font-size:.92rem;text-decoration:none;-webkit-tap-highlight-color:transparent;
+  font-weight:800;font-size:.92rem;text-decoration:none;
+  -webkit-tap-highlight-color:transparent;
 }
-header{text-align:center;color:#fff;margin:86px 0 18px;padding:0 12px;}
-header h1{font-family:'Cinzel',serif;font-size:clamp(26px,4.5vw,50px);letter-spacing:1px;margin-bottom:8px;font-weight:900;}
-header h2{font-size:clamp(18px,3.2vw,30px);margin-bottom:6px;font-weight:800;}
-header h3{font-size:clamp(16px,2.8vw,26px);font-weight:700;color:#dbeafe;}
 
-.card-outer{width:min(92vw,900px);aspect-ratio:3/2;display:flex;align-items:center;justify-content:center;perspective:1000px;margin:0 auto;}
+header{
+  text-align:center;color:#fff;
+  margin:86px 0 18px;padding:0 12px;
+}
+header h1{
+  font-family:'Cinzel',serif;
+  font-size:clamp(26px,4.5vw,50px);
+  letter-spacing:1px;margin-bottom:8px;font-weight:900;
+}
+header h2{
+  font-family:'Cinzel',serif;
+  font-size:clamp(18px,3.2vw,30px);
+  margin-bottom:6px;font-weight:800;
+}
+header h3{
+  font-family:'Noto Sans JP',system-ui,-apple-system,sans-serif;
+  font-size:clamp(16px,2.8vw,26px);
+  font-weight:700;color:#dbeafe;
+}
+
+/* Card */
+.card-outer{
+  width:min(92vw,900px);
+  aspect-ratio:3/2;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto;
+}
+
 .card{
-  width:100%;height:100%;border-radius:var(--radius);
+  width:100%;height:100%;
+  border-radius:var(--radius);
   border:3px solid rgba(255,255,255,.25);
   box-shadow:0 30px 80px rgba(0,0,0,.3);
   overflow:hidden;
@@ -44,127 +83,115 @@ header h3{font-size:clamp(16px,2.8vw,26px);font-weight:700;color:#dbeafe;}
   animation:stripeDown 6s linear infinite;
   position:relative;
 }
-@keyframes stripeDown{0%{background-position:0 0;}100%{background-position:0 240px;}}
+@keyframes stripeDown{
+  0%{background-position:0 0;}
+  100%{background-position:0 240px;}
+}
 
 .face{
-  position:absolute;
-  inset:0;
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;
+  border-radius:var(--radius);
+  padding:clamp(14px, 3.2vw, 26px);
+  transition:opacity .5s ease, transform .6s ease;
+}
+.face.hidden{opacity:0;transform:scale(0.98);}
+.face.visible{opacity:1;transform:scale(1);}
 
+.term{
+  width:100%;
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
-
-  text-align:center;
-  border-radius:var(--radius);
-
-  /* still prevents clipping */
-  padding:clamp(14px, 3.4vw, 28px);
-
-  transition:opacity .5s ease, transform .6s ease;
+  gap:clamp(8px, 1.8vw, 14px);
 }
 
-.face.hidden{opacity:0;transform:scale(0.98);}
-.face.visible{opacity:1;transform:scale(1);}
-
-/* EN (front) + JP (back) main line */
+/* ✅ EN WORD (front): NEVER WRAP, AUTO-FIT via JS */
 .term h2{
   margin:0;
+  font-family:'Cinzel',serif;
   font-weight:900;
+  line-height:1.05;
   color:#000;
 
-  /* ✅ bigger again, but still safe for long lines */
-  font-size:clamp(26px, 6.4vw, 72px);
-  line-height:1.16;
+  /* base size; JS will shrink if needed */
+  font-size:clamp(44px, 9.2vw, 120px);
+
+  white-space:nowrap;          /* ✅ prevents habi/t */
+  word-break:normal;
+  overflow-wrap:normal;
+  text-wrap:unset;
 
   max-width:92%;
-  overflow-wrap:anywhere;
-  word-break:break-word;
-  text-wrap:balance;
-
-  text-shadow:
-    0 0 6px rgba(255,255,255,.9),
-    0 0 18px rgba(255,255,255,.6);
+  text-shadow:0 0 6px rgba(255,255,255,.9),0 0 18px rgba(255,255,255,.6);
 }
 
-/* HIRAGANA/KANA line (the <p id="backSub">) */
+/* ✅ JP (back): bigger + bolder than hira */
+.term .jpLine{
+  font-family:'Noto Sans JP',system-ui,-apple-system,sans-serif;
+  font-weight:900;
+  font-size:clamp(34px, 7.2vw, 86px);
+  line-height:1.08;
+  color:#000;
+  max-width:92%;
+  text-shadow:0 0 6px rgba(255,255,255,.9),0 0 18px rgba(255,255,255,.6);
+}
+
+/* ✅ HIRA: always smaller + softer */
 .term p{
-  margin-top:.65rem;
-
-  /* ✅ smaller than JP, always */
-  font-size:clamp(16px, 3.6vw, 30px);
-  line-height:1.15;
-
-  /* ✅ make JP feel stronger by comparison */
+  margin:0;
+  font-family:'Noto Sans JP',system-ui,-apple-system,sans-serif;
   font-weight:800;
-  letter-spacing:.02em;
-
+  font-size:clamp(18px, 4.6vw, 34px);
+  line-height:1.12;
   color:#000;
-  text-shadow:
-    0 0 4px rgba(255,255,255,.85),
-    0 0 12px rgba(255,255,255,.5);
-
   max-width:92%;
-  overflow-wrap:anywhere;
-  word-break:break-word;
+  opacity:.92;
+  text-shadow:0 0 4px rgba(255,255,255,.85),0 0 12px rgba(255,255,255,.5);
 }
 
-
+/* Sparkles */
+#sparkleContainer{position:absolute;inset:0;pointer-events:none;}
 .sparkle{
   position:absolute;width:6px;height:6px;
   background:radial-gradient(circle at center,#fff8b0 0%,#ffd700 40%,transparent 70%);
-  border-radius:50%;opacity:.95;pointer-events:none;z-index:2;
-  animation:sparkleFloat 2.2s ease-out forwards;filter:blur(.5px);
+  border-radius:50%;opacity:.95;z-index:2;
+  animation:sparkleFloat 2.2s ease-out forwards;
+  filter:blur(.5px);
 }
-@keyframes sparkleFloat{0%{transform:translateY(0) scale(1);opacity:1;}60%{opacity:.9;}100%{transform:translateY(-200px) scale(.5);opacity:0;}}
+@keyframes sparkleFloat{
+  0%{transform:translateY(0) scale(1);opacity:1;}
+  60%{opacity:.9;}
+  100%{transform:translateY(-200px) scale(.5);opacity:0;}
+}
 
+/* Controls */
 .actions{display:flex;gap:18px;justify-content:center;margin:22px 0 12px;flex-wrap:wrap;padding:0 12px;}
 button.btn{
-  width:60px;height:60px;border-radius:16px;border:none;background:linear-gradient(180deg,#fff,#e0e0e0);
-  box-shadow:0 10px 25px rgba(0,0,0,.15);font-weight:900;cursor:pointer;font-size:1.6rem;-webkit-tap-highlight-color:transparent;
+  width:60px;height:60px;border-radius:16px;border:none;
+  background:linear-gradient(180deg,#fff,#e0e0e0);
+  box-shadow:0 10px 25px rgba(0,0,0,.15);
+  font-weight:900;cursor:pointer;font-size:1.6rem;
+  -webkit-tap-highlight-color:transparent;
 }
 #speakBtn{
   background:linear-gradient(180deg,#ff4444,#cc0000);color:#fff;
   box-shadow:0 0 20px rgba(255,0,0,.35), 0 10px 25px rgba(0,0,0,.18);
 }
 .btn:active,#speakBtn:active{transform:scale(.98)}
-footer{margin:10px 0 24px;text-align:center;color:#d1d5db;font-family:'Cinzel',serif;font-size:clamp(14px,2vw,18px);letter-spacing:1px;opacity:.9;padding:0 12px;}
-@media (max-width:420px){
 
-  /* Give the face a bit less padding so text can grow */
-  .face{
-    padding:16px 12px;
-  }
-
-  /* EN / JP main word */
-  .term h2{
-    /* 🔥 bigger for single-word vocab */
-    font-size:clamp(36px, 9.8vw, 68px);
-    line-height:1.05;
-  }
-
-  /* Hiragana / kana helper */
-  .term p{
-    margin-top:.6rem;
-
-    /* clearly secondary */
-    font-size:clamp(16px, 4.4vw, 24px);
-    font-weight:800;
-    opacity:.9;
-  }
-
-  /* JP dominance (back face) */
-  #backFace .term h2{
-    font-weight:900;
-    letter-spacing:.05em;
-  }
+footer{
+  margin:10px 0 24px;text-align:center;color:#d1d5db;
+  font-family:'Cinzel',serif;font-size:clamp(14px,2vw,18px);
+  letter-spacing:1px;opacity:.9;padding:0 12px;
 }
-
-  
 </style>
 </head>
-<body>
 
+<body>
 <a href="index.html" class="back-btn">❮ Back to Menu ／ メニューにもどる</a>
 
 <header>
@@ -176,8 +203,19 @@ footer{margin:10px 0 24px;text-align:center;color:#d1d5db;font-family:'Cinzel',s
 <div class="card-outer">
   <div class="card" id="card">
     <div id="sparkleContainer"></div>
-    <div class="face visible" id="frontFace"><div class="term"><h2 id="frontTitle"></h2></div></div>
-    <div class="face hidden" id="backFace"><div class="term"><h2 id="backTitle"></h2><p id="backSub"></p></div></div>
+
+    <div class="face visible" id="frontFace">
+      <div class="term">
+        <h2 id="frontTitle"></h2>
+      </div>
+    </div>
+
+    <div class="face hidden" id="backFace">
+      <div class="term">
+        <div class="jpLine" id="backTitle"></div>
+        <p id="backSub"></p>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -201,23 +239,22 @@ const PALETTES=[
 
 const AUDIO_BASE = "audio/vocab/";
 
-/* ✅ 15 items, each with its exact mp3 filename */
 const CARDS=[
-  {en:"goal",       jp:"目標",     hira:"もくひょう",   mp3:"v01_goal.mp3"},
-  {en:"plan",       jp:"計画",     hira:"けいかく",     mp3:"v02_plan.mp3"},
-  {en:"future",     jp:"未来",     hira:"みらい",       mp3:"v03_future.mp3"},
-  {en:"dream",      jp:"夢",       hira:"ゆめ",         mp3:"v04_dream.mp3"},
-  {en:"challenge",  jp:"挑戦",     hira:"ちょうせん",   mp3:"v05_challenge.mp3"},
+  {en:"goal",       jp:"目標",     hira:"もくひょう",     mp3:"v01_goal.mp3"},
+  {en:"plan",       jp:"計画",     hira:"けいかく",       mp3:"v02_plan.mp3"},
+  {en:"future",     jp:"未来",     hira:"みらい",         mp3:"v03_future.mp3"},
+  {en:"dream",      jp:"夢",       hira:"ゆめ",           mp3:"v04_dream.mp3"},
+  {en:"challenge",  jp:"挑戦",     hira:"ちょうせん",     mp3:"v05_challenge.mp3"},
   {en:"try",        jp:"挑戦する", hira:"ちょうせん する", mp3:"v06_try.mp3"},
-  {en:"change",     jp:"変える",   hira:"かえる",       mp3:"v07_change.mp3"},
-  {en:"habit",      jp:"習慣",     hira:"しゅうかん",   mp3:"v08_habit.mp3"},
-  {en:"exercise",   jp:"運動",     hira:"うんどう",     mp3:"v09_exercise.mp3"},
-  {en:"study",      jp:"勉強",     hira:"べんきょう",   mp3:"v10_study.mp3"},
-  {en:"learn",      jp:"学ぶ",     hira:"まなぶ",       mp3:"v11_learn.mp3"},
-  {en:"practice",   jp:"練習",     hira:"れんしゅう",   mp3:"v12_practice.mp3"},
-  {en:"success",    jp:"成功",     hira:"せいこう",     mp3:"v13_success.mp3"},
-  {en:"focus",      jp:"集中",     hira:"しゅうちゅう", mp3:"v14_focus.mp3"},
-  {en:"motivation", jp:"やる気",   hira:"やるき",       mp3:"v15_motivation.mp3"}
+  {en:"change",     jp:"変える",   hira:"かえる",         mp3:"v07_change.mp3"},
+  {en:"habit",      jp:"習慣",     hira:"しゅうかん",     mp3:"v08_habit.mp3"},
+  {en:"exercise",   jp:"運動",     hira:"うんどう",       mp3:"v09_exercise.mp3"},
+  {en:"study",      jp:"勉強",     hira:"べんきょう",     mp3:"v10_study.mp3"},
+  {en:"learn",      jp:"学ぶ",     hira:"まなぶ",         mp3:"v11_learn.mp3"},
+  {en:"practice",   jp:"練習",     hira:"れんしゅう",     mp3:"v12_practice.mp3"},
+  {en:"success",    jp:"成功",     hira:"せいこう",       mp3:"v13_success.mp3"},
+  {en:"focus",      jp:"集中",     hira:"しゅうちゅう",   mp3:"v14_focus.mp3"},
+  {en:"motivation", jp:"やる気",   hira:"やるき",         mp3:"v15_motivation.mp3"}
 ];
 
 function shuffle(a){
@@ -228,7 +265,7 @@ function shuffle(a){
 }
 shuffle(CARDS);
 
-let i=0,showBack=false;
+let i=0, showBack=false;
 
 const card=document.getElementById('card');
 const frontFace=document.getElementById('frontFace');
@@ -245,6 +282,24 @@ function buildStripeBackground(colors){
   return `repeating-linear-gradient(180deg,${all.join(',')})`;
 }
 
+/* ✅ Auto-fit: keeps single word on ONE line (no habi/t) */
+function fitOneLine(el, maxPx, minPx){
+  if(!el) return;
+  el.style.whiteSpace = "nowrap";
+  // start at max
+  let lo=minPx, hi=maxPx, best=minPx;
+  // binary search on font size
+  for(let step=0; step<12; step++){
+    const mid = Math.round((lo+hi)/2);
+    el.style.fontSize = mid + "px";
+    // force layout
+    const ok = el.scrollWidth <= el.clientWidth + 1;
+    if(ok){ best = mid; lo = mid + 1; }
+    else{ hi = mid - 1; }
+  }
+  el.style.fontSize = best + "px";
+}
+
 function triggerSparkles(){
   for(let n=0;n<28;n++){
     const s=document.createElement("div");
@@ -258,7 +313,7 @@ function triggerSparkles(){
   }
 }
 
-/* ✅ single reusable audio element (more reliable on Safari) */
+/* ✅ single reusable audio element */
 let sageAudio = new Audio();
 sageAudio.preload = "auto";
 
@@ -277,9 +332,6 @@ async function speak(){
     triggerSparkles();
   }catch(err){
     console.log("[Sage blocked/missing]", err, "src=", src);
-    /* If you want a visible error while testing:
-       alert("Sage failed: " + src);
-    */
   }
 }
 
@@ -288,9 +340,25 @@ function show(){
   const palette=PALETTES[i%PALETTES.length];
   card.style.backgroundImage=buildStripeBackground(palette);
 
+  // set text
   frontTitle.textContent=c.en;
   backTitle.textContent=c.jp;
   backSub.textContent=c.hira;
+
+  // allow fitOneLine to work: give element a width constraint
+  frontTitle.style.maxWidth = "92%";
+
+  // fit english word to one line (desktop + mobile)
+  // choose size bounds based on viewport
+  const isMobile = window.matchMedia("(max-width:420px)").matches;
+  const maxPx = isMobile ? 76 : 140;
+  const minPx = isMobile ? 34 : 54;
+
+  // Important: the element must have a width. Use its parent width.
+  // We temporarily set it to 92% so clientWidth is meaningful.
+  frontTitle.style.display = "inline-block";
+  frontTitle.style.width = "92%";
+  fitOneLine(frontTitle, maxPx, minPx);
 
   if(showBack){
     frontFace.classList.replace("visible","hidden");
@@ -305,6 +373,8 @@ document.getElementById('flipBtn').onclick=()=>{showBack=!showBack;show();};
 document.getElementById('nextBtn').onclick=()=>{i=(i+1)%CARDS.length;showBack=false;show();};
 document.getElementById('prevBtn').onclick=()=>{i=(i-1+CARDS.length)%CARDS.length;showBack=false;show();};
 document.getElementById('speakBtn').onclick=()=>{speak();};
+
+window.addEventListener("resize", ()=>{ show(); });
 
 show();
 </script>
