@@ -109,82 +109,43 @@ header h3{
   gap:clamp(8px, 1.8vw, 14px);
 }
 
-/* ✅ EN WORD (front): NEVER WRAP, AUTO-FIT via JS */
-.term h2{
+/* ✅ ENGLISH (FRONT) — one word, NEVER WRAP (JS auto-fit sets size) */
+#frontFace .term h2{
   margin:0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
   font-weight:900;
   line-height:1.05;
   color:#000;
-}
 
-  /* base size; JS will shrink if needed */
-  font-size:clamp(44px, 9.2vw, 120px);
-
-  white-space:nowrap;          /* ✅ prevents habi/t */
+  white-space:nowrap;        /* 🔒 prevents habi / t */
   word-break:normal;
   overflow-wrap:normal;
-  text-wrap:unset;
 
-  max-width:92%;
   text-shadow:0 0 6px rgba(255,255,255,.9),0 0 18px rgba(255,255,255,.6);
 }
 
-/* ✅ JP (back): bigger + bolder than hira */
-.term .jpLine{
-  font-family:'Noto Sans JP',system-ui,-apple-system,sans-serif;
+/* ✅ BACK (KANJI) — BIG + dominant */
+#backFace .jpLine{
+  font-family:"Noto Sans JP", system-ui, -apple-system, sans-serif;
   font-weight:900;
-  font-size:clamp(34px, 7.2vw, 86px);
-  line-height:1.08;
-  color:#000;
-  max-width:92%;
-  text-shadow:0 0 6px rgba(255,255,255,.9),0 0 18px rgba(255,255,255,.6);
-}
-
-/* ✅ HIRA: always smaller + softer */
-.term p{
-  margin:0;
-  font-family:'Noto Sans JP',system-ui,-apple-system,sans-serif;
-  font-weight:800;
-  font-size:clamp(18px, 4.6vw, 34px);
-  line-height:1.12;
-  color:#000;
-  max-width:92%;
-  opacity:.92;
-  text-shadow:0 0 4px rgba(255,255,255,.85),0 0 12px rgba(255,255,255,.5);
-}
-
-/* =========================
-   BACK FACE — JP vs HIRAGANA (FINAL)
-   ========================= */
-
-/* Japanese (KANJI) — BIG + dominant */
-#backFace .term h2{
-  font-family: "Noto Sans JP", system-ui, -apple-system, sans-serif;
-  font-weight:900;
-
-  /* BIG like your screenshot */
   font-size:clamp(44px, 8.6vw, 88px);
   line-height:1.06;
+  color:#000;
 
-  /* wrapping allowed for JP */
   white-space:normal;
   word-break:keep-all;
   overflow-wrap:anywhere;
   text-wrap:balance;
 
   max-width:92%;
-  margin:0;
-
-  text-shadow:
-    0 0 6px rgba(255,255,255,.9),
-    0 0 18px rgba(255,255,255,.6);
+  text-shadow:0 0 6px rgba(255,255,255,.9),0 0 18px rgba(255,255,255,.6);
 }
 
-/* Hiragana / kana — clearly secondary */
+/* ✅ BACK (HIRAGANA) — clearly smaller */
 #backFace .term p{
-  font-family: "Noto Sans JP", system-ui, -apple-system, sans-serif;
-  margin:.55rem 0 0;
+  margin:0;
+  font-family:"Noto Sans JP", system-ui, -apple-system, sans-serif;
+  margin-top:.55rem;
 
   font-size:clamp(18px, 4vw, 32px);
   line-height:1.14;
@@ -193,14 +154,13 @@ header h3{
   letter-spacing:.02em;
   opacity:.92;
 
+  color:#000;
   max-width:92%;
+  overflow-wrap:anywhere;
 
-  text-shadow:
-    0 0 4px rgba(255,255,255,.85),
-    0 0 12px rgba(255,255,255,.5);
+  text-shadow:0 0 4px rgba(255,255,255,.85),0 0 12px rgba(255,255,255,.5);
 }
 
-  
 /* Sparkles */
 #sparkleContainer{position:absolute;inset:0;pointer-events:none;}
 .sparkle{
@@ -288,21 +248,21 @@ const PALETTES=[
 const AUDIO_BASE = "audio/vocab/";
 
 const CARDS=[
-  {en:"goal",       jp:"目標",     hira:"もくひょう",     mp3:"v01_goal.mp3"},
-  {en:"plan",       jp:"計画",     hira:"けいかく",       mp3:"v02_plan.mp3"},
-  {en:"future",     jp:"未来",     hira:"みらい",         mp3:"v03_future.mp3"},
-  {en:"dream",      jp:"夢",       hira:"ゆめ",           mp3:"v04_dream.mp3"},
-  {en:"challenge",  jp:"挑戦",     hira:"ちょうせん",     mp3:"v05_challenge.mp3"},
-  {en:"try",        jp:"挑戦する", hira:"ちょうせん する", mp3:"v06_try.mp3"},
-  {en:"change",     jp:"変える",   hira:"かえる",         mp3:"v07_change.mp3"},
-  {en:"habit",      jp:"習慣",     hira:"しゅうかん",     mp3:"v08_habit.mp3"},
-  {en:"exercise",   jp:"運動",     hira:"うんどう",       mp3:"v09_exercise.mp3"},
-  {en:"study",      jp:"勉強",     hira:"べんきょう",     mp3:"v10_study.mp3"},
-  {en:"learn",      jp:"学ぶ",     hira:"まなぶ",         mp3:"v11_learn.mp3"},
-  {en:"practice",   jp:"練習",     hira:"れんしゅう",     mp3:"v12_practice.mp3"},
-  {en:"success",    jp:"成功",     hira:"せいこう",       mp3:"v13_success.mp3"},
-  {en:"focus",      jp:"集中",     hira:"しゅうちゅう",   mp3:"v14_focus.mp3"},
-  {en:"motivation", jp:"やる気",   hira:"やるき",         mp3:"v15_motivation.mp3"}
+  {en:"goal",       jp:"目標",     hira:"もくひょう",       mp3:"v01_goal.mp3"},
+  {en:"plan",       jp:"計画",     hira:"けいかく",         mp3:"v02_plan.mp3"},
+  {en:"future",     jp:"未来",     hira:"みらい",           mp3:"v03_future.mp3"},
+  {en:"dream",      jp:"夢",       hira:"ゆめ",             mp3:"v04_dream.mp3"},
+  {en:"challenge",  jp:"挑戦",     hira:"ちょうせん",       mp3:"v05_challenge.mp3"},
+  {en:"try",        jp:"挑戦する", hira:"ちょうせん する",   mp3:"v06_try.mp3"},
+  {en:"change",     jp:"変える",   hira:"かえる",           mp3:"v07_change.mp3"},
+  {en:"habit",      jp:"習慣",     hira:"しゅうかん",       mp3:"v08_habit.mp3"},
+  {en:"exercise",   jp:"運動",     hira:"うんどう",         mp3:"v09_exercise.mp3"},
+  {en:"study",      jp:"勉強",     hira:"べんきょう",       mp3:"v10_study.mp3"},
+  {en:"learn",      jp:"学ぶ",     hira:"まなぶ",           mp3:"v11_learn.mp3"},
+  {en:"practice",   jp:"練習",     hira:"れんしゅう",       mp3:"v12_practice.mp3"},
+  {en:"success",    jp:"成功",     hira:"せいこう",         mp3:"v13_success.mp3"},
+  {en:"focus",      jp:"集中",     hira:"しゅうちゅう",     mp3:"v14_focus.mp3"},
+  {en:"motivation", jp:"やる気",   hira:"やるき",           mp3:"v15_motivation.mp3"}
 ];
 
 function shuffle(a){
@@ -325,22 +285,27 @@ const sparkContainer=document.getElementById("sparkleContainer");
 
 function buildStripeBackground(colors){
   const band=40;let stops=[];
-  colors.forEach((c,idx)=>{const start=idx*band;stops.push(`${c} ${start}px ${start+band}px`);});
+  colors.forEach((c,idx)=>{
+    const start=idx*band;
+    stops.push(`${c} ${start}px ${start+band}px`);
+  });
   const all=stops.concat(stops.map(s=>s.replace(/(\d+)px/g,(m,n)=>(+n+band*colors.length)+'px')));
   return `repeating-linear-gradient(180deg,${all.join(',')})`;
 }
 
-/* ✅ Auto-fit: keeps single word on ONE line (no habi/t) */
+/* ✅ Auto-fit: keeps single word on ONE line */
 function fitOneLine(el, maxPx, minPx){
   if(!el) return;
+
   el.style.whiteSpace = "nowrap";
-  // start at max
+  el.style.display = "inline-block";
+  el.style.width = "92%";
+  el.style.maxWidth = "92%";
+
   let lo=minPx, hi=maxPx, best=minPx;
-  // binary search on font size
   for(let step=0; step<12; step++){
     const mid = Math.round((lo+hi)/2);
     el.style.fontSize = mid + "px";
-    // force layout
     const ok = el.scrollWidth <= el.clientWidth + 1;
     if(ok){ best = mid; lo = mid + 1; }
     else{ hi = mid - 1; }
@@ -388,24 +353,13 @@ function show(){
   const palette=PALETTES[i%PALETTES.length];
   card.style.backgroundImage=buildStripeBackground(palette);
 
-  // set text
   frontTitle.textContent=c.en;
   backTitle.textContent=c.jp;
   backSub.textContent=c.hira;
 
-  // allow fitOneLine to work: give element a width constraint
-  frontTitle.style.maxWidth = "92%";
-
-  // fit english word to one line (desktop + mobile)
-  // choose size bounds based on viewport
   const isMobile = window.matchMedia("(max-width:420px)").matches;
   const maxPx = isMobile ? 76 : 140;
   const minPx = isMobile ? 34 : 54;
-
-  // Important: the element must have a width. Use its parent width.
-  // We temporarily set it to 92% so clientWidth is meaningful.
-  frontTitle.style.display = "inline-block";
-  frontTitle.style.width = "92%";
   fitOneLine(frontTitle, maxPx, minPx);
 
   if(showBack){
