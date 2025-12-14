@@ -267,21 +267,6 @@ a.deck.playing.fx-yellow::after{
     radial-gradient(circle at 70% 75%, rgba(255,246,128,.64), transparent 74%);
 }
 
-/* shimmer overlay (clipped by .clip) */
-a.deck .clip::after{
-  content:"";
-  position:absolute;
-  inset:-40%;
-  z-index:3;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(255,255,255,.85), transparent 55%),
-    radial-gradient(circle at 85% 80%, rgba(255,255,255,.55), transparent 62%),
-    conic-gradient(from 0deg, rgba(255,255,255,0), rgba(255,255,255,.55), rgba(255,255,255,0));
-  mix-blend-mode:screen;
-  opacity:0;
-  animation: shimmerParty .45s linear infinite;
-  pointer-events:none;
-}
 a.deck.playing .clip::after{opacity:.9;}
 
 @keyframes shimmerParty{
