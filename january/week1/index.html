@@ -27,13 +27,10 @@
   --tileJp:clamp(12px, 1.25vw, 14px);
   --tileLine:1.08;
 
-  /* halo */
-  --haloInset:-34px;
-  --haloBlur:18px;
-
-  /* black under-plate (covers any square shimmer edges) */
-  --plateInset:-14px;     /* size of black plate */
-  --plateR:34px;          /* slightly larger than tileR */
+  /* halo + plate */
+  --haloInset:-38px;   /* halo size */
+  --haloBlur:22px;     /* halo blur */
+  --plateInset:-18px;  /* black plate size */
 }
 
 /* Reset */
@@ -75,69 +72,75 @@ h3{font-size:clamp(18px,2.5vw,28px);color:#aaa;margin-top:6px;}
 }
 
 /* =========================
-   TILE
+   TILE WRAPPER (NO GLOW ON BOX)
    ========================= */
 a.deck{
   width:var(--tileSize);
   height:var(--tileSize);
   border-radius:var(--tileR);
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
   text-decoration:none;
   color:#111;
   font-weight:900;
 
-  position:relative;
   overflow:visible;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
   -webkit-tap-highlight-color:transparent;
   user-select:none;
   touch-action:manipulation;
 
-  box-shadow:
-    0 18px 36px rgba(0,0,0,.65),
-    0 0 0 2px rgba(255,255,255,.10) inset;
+  /* IMPORTANT: no glowing shadow on the rounded box itself */
+  box-shadow:none;
+  filter:none;
 
-  transition:transform .18s ease, box-shadow .25s ease, filter .25s ease;
+  transition:transform .18s ease;
+  transform:translateZ(0);
 }
 
-/* ✅ BLACK PLATE UNDER TILE (covers any square artifacts) */
-a.deck::marker{content:""} /* harmless */
+/* ✅ BIG BLACK SOFT PLATE (masks any square raster edges behind) */
 a.deck::before{
   content:"";
   position:absolute;
   inset:var(--plateInset);
-  border-radius:var(--plateR);
+  border-radius:999px;            /* blob (no corners) */
   background:#000;
-  z-index:-2;              /* under everything */
+  z-index:-2;
   pointer-events:none;
-  box-shadow:0 18px 40px rgba(0,0,0,.78);
+  box-shadow:0 22px 52px rgba(0,0,0,.82);
+  transform:translateZ(0);
 }
 
-/* ✅ TRUE CIRCULAR HALO (no square corners) */
+/* ✅ TRUE HALO LAYER (CIRCLE/OVAL) */
 a.deck::after{
   content:"";
   position:absolute;
   inset:var(--haloInset);
-  border-radius:50%;
-  z-index:-1;              /* above plate, below tile */
+  border-radius:50%;              /* circle => no square corners possible */
+  z-index:-1;
   pointer-events:none;
   opacity:0;
   filter:blur(var(--haloBlur));
-  transform:translateZ(0);
-  transition:opacity .18s ease;
+  transform:scale(.98) translateZ(0);
+  transition:opacity .18s ease, transform .18s ease;
+  background:
+    radial-gradient(circle at 45% 40%, rgba(255,255,255,.0), rgba(255,255,255,.0) 45%, transparent 72%);
 }
 
-/* Hard clipping layer */
+/* The clipped tile surface (this is the rounded part) */
 a.deck .clip{
   position:absolute;
   inset:0;
   border-radius:inherit;
-  overflow:hidden;
+  overflow:hidden;                 /* clips shimmer + inner effects */
   z-index:2;
+
+  /* nice depth that won't create square glow artifacts */
+  box-shadow:
+    0 18px 36px rgba(0,0,0,.65),
+    0 0 0 2px rgba(255,255,255,.10) inset;
 }
 
 /* Background + content inside clip */
@@ -145,7 +148,6 @@ a.deck .inner{
   position:absolute;
   inset:0;
   border-radius:inherit;
-
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -183,7 +185,7 @@ a.deck .jp{
   opacity:.95;
 }
 
-/* ✅ OUTLINE ON TOP (separate from plate) */
+/* ✅ OUTLINE ON TOP */
 a.deck .outline{
   position:absolute;
   inset:-1px;
@@ -194,7 +196,7 @@ a.deck .outline{
 }
 
 /* Hover */
-a.deck:hover{transform:scale(1.05);filter:brightness(1.14);}
+a.deck:hover{transform:scale(1.05);}
 
 /* Animations */
 @keyframes stripes{0%{background-position:0 0;}100%{background-position:300% 300%;}}
@@ -214,42 +216,58 @@ footer{
 
 /* =========================
    Click FX: Dance + Flash
+   (no filter on the outer box)
    ========================= */
 a.deck.tap{transform:scale(.96);}
 
 a.deck.playing{
   transform:scale(1.08) rotate(-1.4deg);
-  filter:brightness(1.25) saturate(1.35);
-  animation:
-    wiggle .18s ease-in-out infinite,
-    strobe  .26s linear infinite;
-
-  box-shadow:
-    0 24px 55px rgba(0,0,0,.75),
-    0 0 0 2px rgba(255,255,255,.10) inset;
+  animation: wiggle .18s ease-in-out infinite;
 }
 
-/* ✅ Circular halo colors */
+/* strobe/brightness happens INSIDE the clipped tile only */
+a.deck.playing .inner{
+  animation:
+    stripes 10s linear infinite,
+    strobeInner .26s linear infinite;
+}
+
+@keyframes strobeInner{
+  0%{filter:brightness(1.10) saturate(1.15);}
+  50%{filter:brightness(1.30) saturate(1.35);}
+  100%{filter:brightness(1.10) saturate(1.15);}
+}
+
+@keyframes wiggle{
+  0%{transform:scale(1.08) rotate(-2.0deg) translateY(0);}
+  50%{transform:scale(1.08) rotate( 2.0deg) translateY(-3px);}
+  100%{transform:scale(1.08) rotate(-2.0deg) translateY(0);}
+}
+
+/* ✅ Halo colors (live on ::after only) */
 a.deck.playing.fx-pink::after{
   opacity:1;
+  transform:scale(1.02) translateZ(0);
   background:
     radial-gradient(circle at 45% 40%, rgba(255,126,185,.95), rgba(255,126,185,.35) 45%, transparent 72%),
     radial-gradient(circle at 70% 75%, rgba(255,126,185,.62), transparent 74%);
 }
 a.deck.playing.fx-blue::after{
   opacity:1;
+  transform:scale(1.02) translateZ(0);
   background:
     radial-gradient(circle at 45% 40%, rgba(94,230,255,.95), rgba(94,230,255,.32) 45%, transparent 72%),
     radial-gradient(circle at 70% 75%, rgba(94,230,255,.60), transparent 74%);
 }
 a.deck.playing.fx-yellow::after{
   opacity:1;
+  transform:scale(1.02) translateZ(0);
   background:
     radial-gradient(circle at 45% 40%, rgba(255,246,128,.98), rgba(255,246,128,.36) 45%, transparent 72%),
     radial-gradient(circle at 70% 75%, rgba(255,246,128,.64), transparent 74%);
 }
 
-/* shimmer overlay (clipped) */
+/* shimmer overlay (clipped by .clip) */
 a.deck .clip::after{
   content:"";
   position:absolute;
@@ -265,6 +283,11 @@ a.deck .clip::after{
   pointer-events:none;
 }
 a.deck.playing .clip::after{opacity:.9;}
+
+@keyframes shimmerParty{
+  0%{transform:translateY(14px) rotate(0deg) scale(1);}
+  100%{transform:translateY(-14px) rotate(18deg) scale(1.03);}
+}
 
 /* ✅ Sparkle burst container */
 .sparkles{
@@ -290,25 +313,11 @@ a.deck.playing .clip::after{opacity:.9;}
   100%{opacity:0; transform:translate(-50%,-50%) scale(1.65);}
 }
 
-@keyframes shimmerParty{
-  0%{transform:translateY(14px) rotate(0deg) scale(1);}
-  100%{transform:translateY(-14px) rotate(18deg) scale(1.03);}
-}
-@keyframes wiggle{
-  0%{transform:scale(1.08) rotate(-2.0deg) translateY(0);}
-  50%{transform:scale(1.08) rotate( 2.0deg) translateY(-3px);}
-  100%{transform:scale(1.08) rotate(-2.0deg) translateY(0);}
-}
-@keyframes strobe{
-  0%{filter:brightness(1.25) saturate(1.35);}
-  50%{filter:brightness(1.40) saturate(1.60);}
-  100%{filter:brightness(1.25) saturate(1.35);}
-}
-
 /* accessibility */
 @media (prefers-reduced-motion:reduce){
   a.deck.playing{animation:none;}
   a.deck .clip::after{animation:none;}
+  a.deck.playing .inner{animation:stripes 10s linear infinite;}
   .sparkle{animation:none;opacity:0;}
 }
 
@@ -319,10 +328,9 @@ a.deck.playing .clip::after{opacity:.9;}
     --tilePad:13px;
     --tileEn:clamp(13px, 4.0vw, 16px);
     --tileJp:clamp(11px, 3.4vw, 13px);
-    --haloInset:-30px;
-    --haloBlur:16px;
-    --plateInset:-12px;
-    --plateR:32px;
+    --haloInset:-34px;
+    --haloBlur:20px;
+    --plateInset:-16px;
   }
 }
 </style>
@@ -391,7 +399,6 @@ function burstSparkles(anchor){
   const box = anchor.querySelector('.sparkles');
   if(!box) return;
 
-  // clear old sparkles
   while(box.firstChild) box.removeChild(box.firstChild);
 
   const n = 12;
@@ -399,24 +406,20 @@ function burstSparkles(anchor){
     const s = document.createElement('div');
     s.className = 'sparkle';
 
-    // random position inside tile
     const x = 18 + Math.random()*64; // %
     const y = 18 + Math.random()*64; // %
 
     s.style.left = x + '%';
     s.style.top  = y + '%';
 
-    // slight variety
     const size = 8 + Math.random()*10;
     s.style.width = size + 'px';
     s.style.height = size + 'px';
 
-    // stagger
     s.style.animationDelay = (Math.random()*0.10) + 's';
     box.appendChild(s);
   }
 
-  // cleanup after animation
   setTimeout(()=>{
     while(box.firstChild) box.removeChild(box.firstChild);
   }, 900);
@@ -459,7 +462,6 @@ async function playThenGo(anchor){
     await clickBgm.play();
     clearTimeout(hardFallback);
 
-    // Adjust if needed to match your MP3 vibe
     setTimeout(go, 5200);
   }catch(e){
     go();
