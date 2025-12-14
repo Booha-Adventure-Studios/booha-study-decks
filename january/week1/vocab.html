@@ -3,262 +3,230 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Booha Study Decks – January Week 1</title>
-<meta name="theme-color" content="#000000">
+<title>Booha Study Decks – January Week 1 – Vocabulary</title>
+<meta name="theme-color" content="#7c3aed">
 <link rel="icon" type="image/png" href="booha-ghost.png">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&display=swap" rel="stylesheet" />
 <style>
-:root{
-  --pink:#ff7eb9;
-  --blue:#5ee6ff;
-  --yellow:#fff680;
-  --purple:#c77dff;
-  --ink:#fff;
-  --outline:#000;
-  --outlineW:12px;  /* thicker hides square edges */
-  --tileR:30px;     /* rounder corners */
-}
-
-*{box-sizing:border-box;margin:0;padding:0}
+:root{--radius:28px;--bg:url('https://static.wixstatic.com/media/fa59b9_f8915cfdff974d7883c730f51f577d31~mv2.jpg');}
+*{box-sizing:border-box;margin:0;padding:0;}
 html,body{
-  height:100%;
-  font-family:'Cinzel',serif;
-  background:#000;
-  color:var(--ink);
+  min-height:100%;
+  font-family:system-ui,Segoe UI,Roboto,Inter,sans-serif;
+  background:linear-gradient(160deg,rgba(124,58,237,.1),rgba(34,211,238,.1)),#0f172a;
+  color:#111;
   overflow:auto;
   -webkit-overflow-scrolling:touch;
 }
-
-#welcome{
-  min-height:100svh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:28px 18px 18px;
-  gap:18px;
-  animation:fadeIn 1.2s ease-in;
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;
+  background-image:var(--bg);background-size:cover;background-position:center;opacity:.25;
 }
-
-h1{font-size:clamp(32px,5vw,60px);letter-spacing:1px;font-weight:900;}
-h2{font-size:clamp(22px,3vw,36px);font-weight:800;color:#ccc;}
-h3{font-size:clamp(18px,2.5vw,28px);color:#aaa;margin-top:6px;}
-
-.deck-links{
-  display:flex;
-  gap:1.2rem;
-  flex-wrap:wrap;
-  justify-content:center;
-  padding:10px 0 6px;
+.back-btn{
+  position:fixed;top:14px;left:14px;z-index:1000;
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.55rem .9rem;border-radius:999px;background:#0b1020;color:#fff;
+  border:1px solid rgba(255,255,255,.25);box-shadow:0 10px 25px rgba(0,0,0,.35);
+  font-weight:800;font-size:.92rem;text-decoration:none;-webkit-tap-highlight-color:transparent;
 }
+header{text-align:center;color:#fff;margin:86px 0 18px;padding:0 12px;}
+header h1{font-family:'Cinzel',serif;font-size:clamp(26px,4.5vw,50px);letter-spacing:1px;margin-bottom:8px;font-weight:900;}
+header h2{font-size:clamp(18px,3.2vw,30px);margin-bottom:6px;font-weight:800;}
+header h3{font-size:clamp(16px,2.8vw,26px);font-weight:700;color:#dbeafe;}
 
-a.deck{
-  width:168px;height:168px;                /* slightly bigger looks richer */
-  border-radius:var(--tileR);
-  text-decoration:none;
-  color:#111;
-  font-weight:900;
-  font-size:1.22rem;
-
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-
+.card-outer{width:min(92vw,900px);aspect-ratio:3/2;display:flex;align-items:center;justify-content:center;perspective:1000px;margin:0 auto;}
+.card{
+  width:100%;height:100%;border-radius:var(--radius);
+  border:3px solid rgba(255,255,255,.25);
+  box-shadow:0 30px 80px rgba(0,0,0,.3);
+  overflow:hidden;
+  background-size:100% 240px;
+  animation:stripeDown 6s linear infinite;
   position:relative;
-  overflow:hidden;                          /* ✅ kills corner artifacts */
-  -webkit-tap-highlight-color:transparent;
-  user-select:none;
-  touch-action:manipulation;
+}
+@keyframes stripeDown{0%{background-position:0 0;}100%{background-position:0 240px;}}
 
-  background-size:320% 320%;
-  animation:stripes 10s linear infinite;
+.face{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  border-radius:var(--radius);transition:opacity .5s ease,transform .6s ease;
+}
+.face.hidden{opacity:0;transform:scale(0.98);}
+.face.visible{opacity:1;transform:scale(1);}
 
-  /* base depth */
-  box-shadow:
-    0 22px 48px rgba(0,0,0,.72),
-    0 0 0 2px rgba(255,255,255,.10) inset;
-
-  transition:transform .18s ease, box-shadow .25s ease, filter .25s ease;
+.term h2{
+  margin:0;font-size:clamp(52px,10vw,120px);font-weight:900;line-height:1.1;color:#000;
+  text-shadow:0 0 6px rgba(255,255,255,.9),0 0 18px rgba(255,255,255,.6);
+}
+.term p{
+  margin-top:.7rem;font-size:clamp(30px,5.5vw,48px);font-weight:800;color:#000;
+  text-shadow:0 0 4px rgba(255,255,255,.8),0 0 12px rgba(255,255,255,.5);
 }
 
-/* keep text ALWAYS bold and visible */
-a.deck .t-en{
-  font-weight:900;
-  letter-spacing:.04em;
-  text-shadow:
-    0 1px 0 rgba(255,255,255,.55),
-    0 0 14px rgba(255,255,255,.35);
+.sparkle{
+  position:absolute;width:6px;height:6px;
+  background:radial-gradient(circle at center,#fff8b0 0%,#ffd700 40%,transparent 70%);
+  border-radius:50%;opacity:.95;pointer-events:none;z-index:2;
+  animation:sparkleFloat 2.2s ease-out forwards;filter:blur(.5px);
 }
-a.deck .t-jp{
-  font-size:.82em;
-  font-weight:900;
-  margin-top:2px;
-  text-shadow:0 0 10px rgba(255,255,255,.25);
+@keyframes sparkleFloat{0%{transform:translateY(0) scale(1);opacity:1;}60%{opacity:.9;}100%{transform:translateY(-200px) scale(.5);opacity:0;}}
+
+.actions{display:flex;gap:18px;justify-content:center;margin:22px 0 12px;flex-wrap:wrap;padding:0 12px;}
+button.btn{
+  width:60px;height:60px;border-radius:16px;border:none;background:linear-gradient(180deg,#fff,#e0e0e0);
+  box-shadow:0 10px 25px rgba(0,0,0,.15);font-weight:900;cursor:pointer;font-size:1.6rem;-webkit-tap-highlight-color:transparent;
 }
-
-/* ✅ OUTLINE ON TOP (covers glow square edge) */
-a.deck::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  border:var(--outlineW) solid var(--outline);
-  border-radius:inherit;
-  z-index:10;
-  pointer-events:none;
+#speakBtn{
+  background:linear-gradient(180deg,#ff4444,#cc0000);color:#fff;
+  box-shadow:0 0 20px rgba(255,0,0,.35), 0 10px 25px rgba(0,0,0,.18);
 }
-
-/* Base gradients */
-a.deck:nth-child(1){background:linear-gradient(145deg,var(--pink),#ffc0cb,var(--purple));}
-a.deck:nth-child(2){background:linear-gradient(145deg,var(--blue),#c0ffff,var(--purple));}
-a.deck:nth-child(3){background:linear-gradient(145deg,var(--yellow),#fff7b2,var(--pink));}
-
-/* Hover (desktop) */
-a.deck:hover{transform:scale(1.05);filter:brightness(1.12);}
-
-/* Footer */
-footer{
-  margin-top:10px;
-  padding:8px 0 18px;
-  width:100%;
-  text-align:center;
-  font-size:clamp(14px,2vw,18px);
-  color:#888;
-  letter-spacing:1px;
-  opacity:.9;
-}
-
-/* animations */
-@keyframes stripes{0%{background-position:0 0;}100%{background-position:300% 300%;}}
-@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
-
-/* press */
-a.deck.tap{transform:scale(.96);}
-
-/* party while music plays */
-a.deck.playing{
-  transform:scale(1.08) rotate(-1.4deg);
-  filter:brightness(1.25) saturate(1.40);
-  animation:
-    stripes 1.8s linear infinite,
-    wiggle .18s ease-in-out infinite,
-    flash  .28s linear infinite;
-}
-
-/* stronger glow */
-a.deck.playing.fx-pink{ box-shadow:0 26px 56px rgba(0,0,0,.75), 0 0 35px rgba(255,126,185,.98), 0 0 110px rgba(255,126,185,.78), 0 0 220px rgba(255,126,185,.38); }
-a.deck.playing.fx-blue{ box-shadow:0 26px 56px rgba(0,0,0,.75), 0 0 35px rgba(94,230,255,.98), 0 0 110px rgba(94,230,255,.78), 0 0 220px rgba(94,230,255,.38); }
-a.deck.playing.fx-yellow{ box-shadow:0 26px 56px rgba(0,0,0,.75), 0 0 35px rgba(255,246,128,.98), 0 0 120px rgba(255,246,128,.82), 0 0 240px rgba(255,246,128,.42); }
-
-/* shimmer UNDER outline, UNDER text (never washes out the letters) */
-a.deck.playing::after{
-  content:"";
-  position:absolute;
-  inset:-40%;
-  z-index:2;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(255,255,255,.85), transparent 55%),
-    radial-gradient(circle at 85% 80%, rgba(255,255,255,.55), transparent 62%),
-    conic-gradient(from 0deg, rgba(255,255,255,0), rgba(255,255,255,.50), rgba(255,255,255,0));
-  mix-blend-mode:screen;
-  opacity:.90;
-  animation: shimmer .45s linear infinite;
-  pointer-events:none;
-}
-
-/* ensure text stays above shimmer */
-a.deck > *{position:relative; z-index:6;}
-
-@keyframes shimmer{0%{transform:translateY(14px) rotate(0deg)}100%{transform:translateY(-14px) rotate(18deg)}}
-@keyframes wiggle{0%{transform:scale(1.08) rotate(-2deg)}50%{transform:scale(1.08) rotate(2deg)}100%{transform:scale(1.08) rotate(-2deg)}}
-@keyframes flash{0%{filter:brightness(1.22) saturate(1.35)}50%{filter:brightness(1.40) saturate(1.60)}100%{filter:brightness(1.22) saturate(1.35)}}
+.btn:active,#speakBtn:active{transform:scale(.98)}
+footer{margin:10px 0 24px;text-align:center;color:#d1d5db;font-family:'Cinzel',serif;font-size:clamp(14px,2vw,18px);letter-spacing:1px;opacity:.9;padding:0 12px;}
 </style>
 </head>
 <body>
 
-<audio id="clickBgm" preload="auto">
-  <source src="studydeck.mp3" type="audio/mpeg">
-</audio>
+<a href="index.html" class="back-btn">❮ Back to Menu ／ メニューにもどる</a>
 
-<section id="welcome">
+<header>
   <h1>Booha Study Decks</h1>
-  <h2>ブーハー・スタディデッキ</h2>
-  <h3>January Week 1 Card Decks<br>１月第１週カードデッキ</h3>
+  <h2>January Week 1 – Vocabulary</h2>
+  <h3>１月第１週（Vocabulary）</h3>
+</header>
 
-  <div class="deck-links">
-    <a class="deck" data-fx="fx-pink" href="vocab.html">
-      <div class="t-en">VOCABULARY</div>
-      <div class="t-jp">語彙</div>
-    </a>
-    <a class="deck" data-fx="fx-blue" href="sentences.html">
-      <div class="t-en">SENTENCES</div>
-      <div class="t-jp">文</div>
-    </a>
-    <a class="deck" data-fx="fx-yellow" href="questions.html">
-      <div class="t-en">QUESTIONS</div>
-      <div class="t-jp">質問</div>
-    </a>
+<div class="card-outer">
+  <div class="card" id="card">
+    <div id="sparkleContainer"></div>
+    <div class="face visible" id="frontFace"><div class="term"><h2 id="frontTitle"></h2></div></div>
+    <div class="face hidden" id="backFace"><div class="term"><h2 id="backTitle"></h2><p id="backSub"></p></div></div>
   </div>
+</div>
 
-  <footer>Bryan's English School</footer>
-</section>
+<div class="actions">
+  <button class="btn" id="prevBtn" aria-label="Previous">❮</button>
+  <button class="btn" id="flipBtn" aria-label="Flip">⤾</button>
+  <button class="btn" id="nextBtn" aria-label="Next">❯</button>
+  <button class="btn" id="speakBtn" aria-label="Play audio">▶</button>
+</div>
+
+<footer>Bryan's English School</footer>
 
 <script>
-const clickBgm = document.getElementById('clickBgm');
+const PALETTES=[
+  ["#ff007f","#00c3ff","#ffe600","#39ff14","#8b00ff","#ff4d4d"],
+  ["#ff4b1f","#1fddff","#f9ed69","#00ff9c","#d16ba5","#8ef6e4"],
+  ["#ff6ec7","#5ee6ff","#fff680","#a6f7b2","#c77dff","#7dd3fc"],
+  ["#ff9f00","#ff00a6","#00ffe1","#ffee00","#00d9ff","#ff6b6b"],
+  ["#ff5f6d","#ffc371","#00c9ff","#92fe9d","#a890fe","#fbc8d4"]
+];
 
-function stopClickBgm(){
-  try{ clickBgm.pause(); }catch{}
-  try{ clickBgm.currentTime = 0; }catch{}
+const AUDIO_BASE = "audio/vocab/";
+
+/* ✅ 15 items, each with its exact mp3 filename */
+const CARDS=[
+  {en:"goal",       jp:"目標",     hira:"もくひょう",   mp3:"v01_goal.mp3"},
+  {en:"plan",       jp:"計画",     hira:"けいかく",     mp3:"v02_plan.mp3"},
+  {en:"future",     jp:"未来",     hira:"みらい",       mp3:"v03_future.mp3"},
+  {en:"dream",      jp:"夢",       hira:"ゆめ",         mp3:"v04_dream.mp3"},
+  {en:"challenge",  jp:"挑戦",     hira:"ちょうせん",   mp3:"v05_challenge.mp3"},
+  {en:"try",        jp:"挑戦する", hira:"ちょうせん する", mp3:"v06_try.mp3"},
+  {en:"change",     jp:"変える",   hira:"かえる",       mp3:"v07_change.mp3"},
+  {en:"habit",      jp:"習慣",     hira:"しゅうかん",   mp3:"v08_habit.mp3"},
+  {en:"exercise",   jp:"運動",     hira:"うんどう",     mp3:"v09_exercise.mp3"},
+  {en:"study",      jp:"勉強",     hira:"べんきょう",   mp3:"v10_study.mp3"},
+  {en:"learn",      jp:"学ぶ",     hira:"まなぶ",       mp3:"v11_learn.mp3"},
+  {en:"practice",   jp:"練習",     hira:"れんしゅう",   mp3:"v12_practice.mp3"},
+  {en:"success",    jp:"成功",     hira:"せいこう",     mp3:"v13_success.mp3"},
+  {en:"focus",      jp:"集中",     hira:"しゅうちゅう", mp3:"v14_focus.mp3"},
+  {en:"motivation", jp:"やる気",   hira:"やるき",       mp3:"v15_motivation.mp3"}
+];
+
+function shuffle(a){
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+}
+shuffle(CARDS);
+
+let i=0,showBack=false;
+
+const card=document.getElementById('card');
+const frontFace=document.getElementById('frontFace');
+const backFace=document.getElementById('backFace');
+const frontTitle=document.getElementById('frontTitle');
+const backTitle=document.getElementById('backTitle');
+const backSub=document.getElementById('backSub');
+const sparkContainer=document.getElementById("sparkleContainer");
+
+function buildStripeBackground(colors){
+  const band=40;let stops=[];
+  colors.forEach((c,idx)=>{const start=idx*band;stops.push(`${c} ${start}px ${start+band}px`);});
+  const all=stops.concat(stops.map(s=>s.replace(/(\d+)px/g,(m,n)=>(+n+band*colors.length)+'px')));
+  return `repeating-linear-gradient(180deg,${all.join(',')})`;
 }
 
-async function playThenGo(anchor){
-  const url = anchor.getAttribute('href');
-
-  anchor.classList.add('tap');
-  setTimeout(()=>anchor.classList.remove('tap'), 180);
-
-  if(anchor.classList.contains('playing')) return;
-
-  document.querySelectorAll('a.deck.playing').forEach(el=>{
-    el.classList.remove('playing','fx-pink','fx-blue','fx-yellow');
-  });
-
-  stopClickBgm();
-
-  const fx = anchor.dataset.fx || '';
-  anchor.classList.add('playing');
-  if(fx) anchor.classList.add(fx);
-
-  let navigated=false;
-  const go=()=>{
-    if(navigated) return;
-    navigated=true;
-    window.location.href=url;
-  };
-
-  clickBgm.onended = go;
-
-  const fallback = setTimeout(go, 700);
-
-  try{
-    clickBgm.volume = 0.95;
-    clickBgm.currentTime = 0;
-    await clickBgm.play();
-    clearTimeout(fallback);
-    setTimeout(go, 5200);
-  }catch(e){
-    go();
+function triggerSparkles(){
+  for(let n=0;n<28;n++){
+    const s=document.createElement("div");
+    s.className="sparkle";
+    s.style.left=Math.random()*100+"%";
+    s.style.bottom=(10+Math.random()*70)+"%";
+    s.style.transform=`scale(${0.6+Math.random()*1.4})`;
+    s.style.animationDelay=(Math.random()*0.25)+"s";
+    sparkContainer.appendChild(s);
+    setTimeout(()=>s.remove(),2200);
   }
 }
 
-document.querySelectorAll('a.deck').forEach(a=>{
-  a.addEventListener('click',(e)=>{
-    e.preventDefault();
-    playThenGo(a);
-  });
-});
-</script>
+/* ✅ single reusable audio element (more reliable on Safari) */
+let sageAudio = new Audio();
+sageAudio.preload = "auto";
 
+async function speak(){
+  const c = CARDS[i];
+  if(!c || !c.mp3) return;
+
+  const src = AUDIO_BASE + c.mp3;
+
+  try{ sageAudio.pause(); }catch{}
+  try{ sageAudio.currentTime = 0; }catch{}
+  sageAudio.src = src;
+
+  try{
+    await sageAudio.play();
+    triggerSparkles();
+  }catch(err){
+    console.log("[Sage blocked/missing]", err, "src=", src);
+    /* If you want a visible error while testing:
+       alert("Sage failed: " + src);
+    */
+  }
+}
+
+function show(){
+  const c=CARDS[i];
+  const palette=PALETTES[i%PALETTES.length];
+  card.style.backgroundImage=buildStripeBackground(palette);
+
+  frontTitle.textContent=c.en;
+  backTitle.textContent=c.jp;
+  backSub.textContent=c.hira;
+
+  if(showBack){
+    frontFace.classList.replace("visible","hidden");
+    backFace.classList.replace("hidden","visible");
+  }else{
+    backFace.classList.replace("visible","hidden");
+    frontFace.classList.replace("hidden","visible");
+  }
+}
+
+document.getElementById('flipBtn').onclick=()=>{showBack=!showBack;show();};
+document.getElementById('nextBtn').onclick=()=>{i=(i+1)%CARDS.length;showBack=false;show();};
+document.getElementById('prevBtn').onclick=()=>{i=(i-1+CARDS.length)%CARDS.length;showBack=false;show();};
+document.getElementById('speakBtn').onclick=()=>{speak();};
+
+show();
+</script>
 </body>
 </html>
