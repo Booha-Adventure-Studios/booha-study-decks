@@ -15,7 +15,10 @@
   --yellow:#fff680;
   --purple:#c77dff;
   --ink:#fff;
-  --outline:#000;            /* ✅ thick black outline */
+
+  /* outline */
+  --outline:#000;
+  --outlineW:10px; /* thicker */
 }
 
 /* Reset */
@@ -61,27 +64,44 @@ a.deck{
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  width:160px;height:160px;
+
+  width:160px;
+  height:160px;
   border-radius:22px;
+
   text-decoration:none;
   color:#111;
   font-weight:900;
   font-size:1.2rem;
 
-  /* ✅ thick outline + deeper “toy” look */
-  border:6px solid var(--outline);
+  /* base shadow */
   box-shadow:
-    0 14px 28px rgba(0,0,0,.55),
-    0 0 0 2px rgba(255,255,255,.08) inset;
+    0 18px 36px rgba(0,0,0,.65),
+    0 0 0 2px rgba(255,255,255,.10) inset;
 
   transition:transform .18s ease, box-shadow .25s ease, filter .25s ease;
   animation:stripes 10s linear infinite;
   background-size:300% 300%;
   position:relative;
   overflow:hidden;
+
   -webkit-tap-highlight-color:transparent;
   user-select:none;
   touch-action:manipulation;
+}
+
+/* Keep text above effects */
+a.deck > *{ position:relative; z-index:6; }
+
+/* ✅ OUTLINE ON TOP (hides the “square glow edge”) */
+a.deck::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border:var(--outlineW) solid var(--outline);
+  border-radius:inherit;
+  z-index:8;              /* above glow + shimmer */
+  pointer-events:none;
 }
 
 /* Base gradients */
@@ -90,9 +110,9 @@ a.deck:nth-child(2){background:linear-gradient(145deg,var(--blue),#c0ffff,var(--
 a.deck:nth-child(3){background:linear-gradient(145deg,var(--yellow),#fff7b2,var(--pink));}
 
 /* Hover (desktop) */
-a.deck:nth-child(1):hover{transform:scale(1.05);box-shadow:0 0 0 6px #000, 0 0 34px var(--pink),0 0 80px rgba(255,126,185,.55);filter:brightness(1.12);}
-a.deck:nth-child(2):hover{transform:scale(1.05);box-shadow:0 0 0 6px #000, 0 0 34px var(--blue),0 0 80px rgba(94,230,255,.55);filter:brightness(1.12);}
-a.deck:nth-child(3):hover{transform:scale(1.05);box-shadow:0 0 0 6px #000, 0 0 34px var(--yellow),0 0 80px rgba(255,246,128,.55);filter:brightness(1.12);}
+a.deck:nth-child(1):hover{transform:scale(1.05);filter:brightness(1.14);}
+a.deck:nth-child(2):hover{transform:scale(1.05);filter:brightness(1.14);}
+a.deck:nth-child(3):hover{transform:scale(1.05);filter:brightness(1.14);}
 
 /* Animations */
 @keyframes stripes{0%{background-position:0 0;}100%{background-position:300% 300%;}}
@@ -111,7 +131,7 @@ footer{
 }
 
 /* =========================
-   Click FX: “Dance + Flash”
+   Click FX: BIG “Dance + Flash”
    ========================= */
 
 /* quick press */
@@ -119,74 +139,76 @@ a.deck.tap{transform:scale(.96);}
 
 /* while music plays */
 a.deck.playing{
-  transform:scale(1.06) rotate(-1.2deg);
-  filter:brightness(1.2) saturate(1.25);
+  transform:scale(1.08) rotate(-1.4deg);
+  filter:brightness(1.25) saturate(1.35);
   animation:
-    stripes 2.2s linear infinite,
-    wiggle .22s ease-in-out infinite,
-    strobe  .38s linear infinite;
+    stripes 1.8s linear infinite,
+    wiggle .18s ease-in-out infinite,
+    strobe  .26s linear infinite;
 }
 
-/* color-specific glow during party */
+/* MORE glow (and it stays behind the outline) */
 a.deck.playing.fx-pink{
   box-shadow:
-    0 0 0 6px #000,
-    0 0 22px rgba(255,126,185,.95),
-    0 0 70px rgba(255,126,185,.65),
-    0 0 140px rgba(255,126,185,.28);
+    0 24px 55px rgba(0,0,0,.75),
+    0 0 28px rgba(255,126,185,.95),
+    0 0 90px rgba(255,126,185,.75),
+    0 0 180px rgba(255,126,185,.36),
+    0 0 0 2px rgba(255,255,255,.10) inset;
 }
 a.deck.playing.fx-blue{
   box-shadow:
-    0 0 0 6px #000,
-    0 0 22px rgba(94,230,255,.95),
-    0 0 70px rgba(94,230,255,.65),
-    0 0 140px rgba(94,230,255,.28);
+    0 24px 55px rgba(0,0,0,.75),
+    0 0 28px rgba(94,230,255,.95),
+    0 0 90px rgba(94,230,255,.75),
+    0 0 180px rgba(94,230,255,.36),
+    0 0 0 2px rgba(255,255,255,.10) inset;
 }
 a.deck.playing.fx-yellow{
   box-shadow:
-    0 0 0 6px #000,
-    0 0 22px rgba(255,246,128,.98),
-    0 0 70px rgba(255,246,128,.70),
-    0 0 140px rgba(255,246,128,.30);
+    0 24px 55px rgba(0,0,0,.75),
+    0 0 28px rgba(255,246,128,.98),
+    0 0 95px rgba(255,246,128,.80),
+    0 0 190px rgba(255,246,128,.40),
+    0 0 0 2px rgba(255,255,255,.10) inset;
 }
 
-/* animated sparkle-shimmer overlay */
+/* shimmer overlay (kept UNDER outline) */
 a.deck.playing::after{
   content:"";
   position:absolute;
-  inset:-35%;
+  inset:-40%;
+  z-index:4; /* below outline (8) and text (6) */
   background:
-    radial-gradient(circle at 20% 20%, rgba(255,255,255,.75), transparent 55%),
-    radial-gradient(circle at 85% 80%, rgba(255,255,255,.45), transparent 62%),
-    conic-gradient(from 0deg, rgba(255,255,255,0), rgba(255,255,255,.40), rgba(255,255,255,0));
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,.85), transparent 55%),
+    radial-gradient(circle at 85% 80%, rgba(255,255,255,.55), transparent 62%),
+    conic-gradient(from 0deg, rgba(255,255,255,0), rgba(255,255,255,.55), rgba(255,255,255,0));
   mix-blend-mode:screen;
-  opacity:.85;
-  animation: shimmerParty .55s linear infinite;
+  opacity:.9;
+  animation: shimmerParty .45s linear infinite;
   pointer-events:none;
 }
 
 @keyframes shimmerParty{
-  0%{transform:translateY(12px) rotate(0deg) scale(1);}
-  100%{transform:translateY(-12px) rotate(18deg) scale(1.02);}
+  0%{transform:translateY(14px) rotate(0deg) scale(1);}
+  100%{transform:translateY(-14px) rotate(18deg) scale(1.03);}
 }
 
 /* wiggle dance */
 @keyframes wiggle{
-  0%{transform:scale(1.06) rotate(-1.6deg) translateY(0);}
-  50%{transform:scale(1.06) rotate( 1.6deg) translateY(-2px);}
-  100%{transform:scale(1.06) rotate(-1.6deg) translateY(0);}
+  0%{transform:scale(1.08) rotate(-2.0deg) translateY(0);}
+  50%{transform:scale(1.08) rotate( 2.0deg) translateY(-3px);}
+  100%{transform:scale(1.08) rotate(-2.0deg) translateY(0);}
 }
 
-/* border flash (keeps thick black outline but adds “neon pop”) */
+/* strobe: flashes a WHITE ring outside the black outline */
 @keyframes strobe{
-  0%{outline:0px solid transparent;}
-  25%{outline:6px solid rgba(255,255,255,.35);}
-  50%{outline:6px solid rgba(0,0,0,.0);}
-  75%{outline:6px solid rgba(255,255,255,.35);}
-  100%{outline:0px solid transparent;}
+  0%{filter:brightness(1.25) saturate(1.35);}
+  50%{filter:brightness(1.38) saturate(1.55);}
+  100%{filter:brightness(1.25) saturate(1.35);}
 }
 
-/* Reduce motion (optional kindness) */
+/* accessibility */
 @media (prefers-reduced-motion:reduce){
   a.deck.playing{animation:stripes 10s linear infinite;}
   a.deck.playing::after{animation:none;}
@@ -195,7 +217,7 @@ a.deck.playing::after{
 </head>
 <body>
 
-<!-- ✅ studydeck.mp3 must be in the same folder as this index.html -->
+<!-- ✅ studydeck.mp3 in SAME folder as this index.html -->
 <audio id="clickBgm" preload="auto">
   <source src="studydeck.mp3" type="audio/mpeg">
 </audio>
@@ -231,20 +253,17 @@ function stopClickBgm(){
 async function playThenGo(anchor){
   const url = anchor.getAttribute('href');
 
-  // quick press
   anchor.classList.add('tap');
   setTimeout(()=>anchor.classList.remove('tap'), 180);
 
   if(anchor.classList.contains('playing')) return;
 
-  // clear other tiles
   document.querySelectorAll('a.deck.playing').forEach(el=>{
     el.classList.remove('playing','fx-pink','fx-blue','fx-yellow');
   });
 
   stopClickBgm();
 
-  // apply party mode + color FX
   const fx = anchor.dataset.fx || '';
   anchor.classList.add('playing');
   if(fx) anchor.classList.add(fx);
@@ -258,17 +277,15 @@ async function playThenGo(anchor){
 
   clickBgm.onended = go;
 
-  // safety fallback
   const fallback = setTimeout(go, 700);
 
   try{
-    clickBgm.volume = 0.9;
+    clickBgm.volume = 0.95;
     clickBgm.currentTime = 0;
     await clickBgm.play();
 
-    // audio started: keep party for ~5s then go
     clearTimeout(fallback);
-    setTimeout(go, 5200);
+    setTimeout(go, 5200); // ~5 sec
   }catch(e){
     go();
   }
