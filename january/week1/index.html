@@ -9,28 +9,31 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&display=swap" rel="stylesheet" />
 <style>
 :root{
-  --radius:28px;
-
   --pink:#ff7eb9;
   --blue:#5ee6ff;
   --yellow:#fff680;
   --purple:#c77dff;
 
   --ink:#fff;
-
   --outline:#000;
   --outlineW:12px;
-  --tileR:30px;
 
-  /* text (smaller + safer) */
+  --tileR:30px;
+  --tileSize:160px;
+
+  /* text (safe) */
   --tilePad:14px;
   --tileEn:clamp(14px, 1.55vw, 17px);
   --tileJp:clamp(12px, 1.25vw, 14px);
   --tileLine:1.08;
 
-  /* halo size */
-  --haloInset:-34px;       /* bigger negative = bigger glow circle */
+  /* halo */
+  --haloInset:-34px;
   --haloBlur:18px;
+
+  /* black under-plate (covers any square shimmer edges) */
+  --plateInset:-14px;     /* size of black plate */
+  --plateR:34px;          /* slightly larger than tileR */
 }
 
 /* Reset */
@@ -75,8 +78,8 @@ h3{font-size:clamp(18px,2.5vw,28px);color:#aaa;margin-top:6px;}
    TILE
    ========================= */
 a.deck{
-  width:160px;
-  height:160px;
+  width:var(--tileSize);
+  height:var(--tileSize);
   border-radius:var(--tileR);
 
   text-decoration:none;
@@ -101,13 +104,26 @@ a.deck{
   transition:transform .18s ease, box-shadow .25s ease, filter .25s ease;
 }
 
-/* ✅ TRUE CIRCULAR HALO (fixes square/plate glow) */
+/* ✅ BLACK PLATE UNDER TILE (covers any square artifacts) */
+a.deck::marker{content:""} /* harmless */
+a.deck::before{
+  content:"";
+  position:absolute;
+  inset:var(--plateInset);
+  border-radius:var(--plateR);
+  background:#000;
+  z-index:-2;              /* under everything */
+  pointer-events:none;
+  box-shadow:0 18px 40px rgba(0,0,0,.78);
+}
+
+/* ✅ TRUE CIRCULAR HALO (no square corners) */
 a.deck::after{
   content:"";
   position:absolute;
   inset:var(--haloInset);
   border-radius:50%;
-  z-index:0;
+  z-index:-1;              /* above plate, below tile */
   pointer-events:none;
   opacity:0;
   filter:blur(var(--haloBlur));
@@ -167,9 +183,8 @@ a.deck .jp{
   opacity:.95;
 }
 
-/* Outline on top */
-a.deck::before{
-  content:"";
+/* ✅ OUTLINE ON TOP (separate from plate) */
+a.deck .outline{
   position:absolute;
   inset:-1px;
   border:var(--outlineW) solid var(--outline);
@@ -202,7 +217,6 @@ footer{
    ========================= */
 a.deck.tap{transform:scale(.96);}
 
-/* playing state */
 a.deck.playing{
   transform:scale(1.08) rotate(-1.4deg);
   filter:brightness(1.25) saturate(1.35);
@@ -215,24 +229,24 @@ a.deck.playing{
     0 0 0 2px rgba(255,255,255,.10) inset;
 }
 
-/* ✅ Stronger + prettier CIRCULAR halo colors */
+/* ✅ Circular halo colors */
 a.deck.playing.fx-pink::after{
   opacity:1;
   background:
     radial-gradient(circle at 45% 40%, rgba(255,126,185,.95), rgba(255,126,185,.35) 45%, transparent 72%),
-    radial-gradient(circle at 70% 75%, rgba(255,126,185,.65), transparent 74%);
+    radial-gradient(circle at 70% 75%, rgba(255,126,185,.62), transparent 74%);
 }
 a.deck.playing.fx-blue::after{
   opacity:1;
   background:
     radial-gradient(circle at 45% 40%, rgba(94,230,255,.95), rgba(94,230,255,.32) 45%, transparent 72%),
-    radial-gradient(circle at 70% 75%, rgba(94,230,255,.62), transparent 74%);
+    radial-gradient(circle at 70% 75%, rgba(94,230,255,.60), transparent 74%);
 }
 a.deck.playing.fx-yellow::after{
   opacity:1;
   background:
     radial-gradient(circle at 45% 40%, rgba(255,246,128,.98), rgba(255,246,128,.36) 45%, transparent 72%),
-    radial-gradient(circle at 70% 75%, rgba(255,246,128,.66), transparent 74%);
+    radial-gradient(circle at 70% 75%, rgba(255,246,128,.64), transparent 74%);
 }
 
 /* shimmer overlay (clipped) */
@@ -251,6 +265,30 @@ a.deck .clip::after{
   pointer-events:none;
 }
 a.deck.playing .clip::after{opacity:.9;}
+
+/* ✅ Sparkle burst container */
+.sparkles{
+  position:absolute;
+  inset:0;
+  z-index:9;                /* above inner, below outline */
+  pointer-events:none;
+}
+.sparkle{
+  position:absolute;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(255,255,255,.95), rgba(255,255,255,0) 70%);
+  filter:blur(.2px);
+  opacity:0;
+  transform:translate(-50%,-50%) scale(.6);
+  animation:sparkPop .55s ease-out forwards;
+}
+@keyframes sparkPop{
+  0%{opacity:0; transform:translate(-50%,-50%) scale(.55);}
+  10%{opacity:1; transform:translate(-50%,-50%) scale(1.05);}
+  100%{opacity:0; transform:translate(-50%,-50%) scale(1.65);}
+}
 
 @keyframes shimmerParty{
   0%{transform:translateY(14px) rotate(0deg) scale(1);}
@@ -271,17 +309,20 @@ a.deck.playing .clip::after{opacity:.9;}
 @media (prefers-reduced-motion:reduce){
   a.deck.playing{animation:none;}
   a.deck .clip::after{animation:none;}
+  .sparkle{animation:none;opacity:0;}
 }
 
 /* small devices */
 @media (max-width:420px){
-  a.deck{width:150px;height:150px;}
   :root{
+    --tileSize:150px;
     --tilePad:13px;
     --tileEn:clamp(13px, 4.0vw, 16px);
     --tileJp:clamp(11px, 3.4vw, 13px);
     --haloInset:-30px;
     --haloBlur:16px;
+    --plateInset:-12px;
+    --plateR:32px;
   }
 }
 </style>
@@ -305,7 +346,9 @@ a.deck.playing .clip::after{opacity:.9;}
           <span class="label">Vocabulary</span>
           <span class="jp">語彙</span>
         </div>
+        <div class="sparkles" aria-hidden="true"></div>
       </div>
+      <div class="outline" aria-hidden="true"></div>
     </a>
 
     <a class="deck" data-fx="fx-blue" href="sentences.html">
@@ -314,7 +357,9 @@ a.deck.playing .clip::after{opacity:.9;}
           <span class="label">Sentences</span>
           <span class="jp">文</span>
         </div>
+        <div class="sparkles" aria-hidden="true"></div>
       </div>
+      <div class="outline" aria-hidden="true"></div>
     </a>
 
     <a class="deck" data-fx="fx-yellow" href="questions.html">
@@ -323,7 +368,9 @@ a.deck.playing .clip::after{opacity:.9;}
           <span class="label">Questions</span>
           <span class="jp">質問</span>
         </div>
+        <div class="sparkles" aria-hidden="true"></div>
       </div>
+      <div class="outline" aria-hidden="true"></div>
     </a>
 
   </div>
@@ -337,6 +384,42 @@ const clickBgm = document.getElementById('clickBgm');
 function stopClickBgm(){
   try{ clickBgm.pause(); }catch{}
   try{ clickBgm.currentTime = 0; }catch{}
+}
+
+/* Sparkle burst */
+function burstSparkles(anchor){
+  const box = anchor.querySelector('.sparkles');
+  if(!box) return;
+
+  // clear old sparkles
+  while(box.firstChild) box.removeChild(box.firstChild);
+
+  const n = 12;
+  for(let i=0;i<n;i++){
+    const s = document.createElement('div');
+    s.className = 'sparkle';
+
+    // random position inside tile
+    const x = 18 + Math.random()*64; // %
+    const y = 18 + Math.random()*64; // %
+
+    s.style.left = x + '%';
+    s.style.top  = y + '%';
+
+    // slight variety
+    const size = 8 + Math.random()*10;
+    s.style.width = size + 'px';
+    s.style.height = size + 'px';
+
+    // stagger
+    s.style.animationDelay = (Math.random()*0.10) + 's';
+    box.appendChild(s);
+  }
+
+  // cleanup after animation
+  setTimeout(()=>{
+    while(box.firstChild) box.removeChild(box.firstChild);
+  }, 900);
 }
 
 async function playThenGo(anchor){
@@ -357,6 +440,8 @@ async function playThenGo(anchor){
   anchor.classList.add('playing');
   if(fx) anchor.classList.add(fx);
 
+  burstSparkles(anchor);
+
   let navigated=false;
   const go=()=>{
     if(navigated) return;
@@ -364,10 +449,8 @@ async function playThenGo(anchor){
     window.location.href=url;
   };
 
-  // If audio ends naturally, go.
   clickBgm.onended = go;
 
-  // Safety: if autoplay blocks or file missing, still go quickly.
   const hardFallback = setTimeout(go, 900);
 
   try{
@@ -376,8 +459,7 @@ async function playThenGo(anchor){
     await clickBgm.play();
     clearTimeout(hardFallback);
 
-    // Let the song “feel” complete; then navigate.
-    // Adjust this if your MP3 is longer/shorter.
+    // Adjust if needed to match your MP3 vibe
     setTimeout(go, 5200);
   }catch(e){
     go();
