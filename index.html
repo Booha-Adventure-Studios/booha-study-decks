@@ -6,67 +6,116 @@
 <title>Booha Study Decks</title>
 <meta name="theme-color" content="#0b1020" />
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Noto+Sans+JP:wght@500;700&display=swap" rel="stylesheet">
+
 <style>
-:root{--bg:#0b1020;--ink:#fff;--muted:#cbd5e1;}
+:root{
+  --bg:#0b1020;
+  --ink:#ffffff;
+  --card:#111827;
+  --outline:#ffffff26;
+  --gold:#ffd166;
+}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
+
 body{
-  background:radial-gradient(circle at 30% 10%, rgba(124,58,237,.28), transparent 55%),
-             radial-gradient(circle at 80% 90%, rgba(94,230,255,.22), transparent 55%),
-             var(--bg);
+  background:
+    radial-gradient(circle at 20% 10%, rgba(124,58,237,.28), transparent 55%),
+    radial-gradient(circle at 80% 90%, rgba(94,230,255,.22), transparent 55%),
+    var(--bg);
   color:var(--ink);
+  font-family:'Cinzel',serif;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-family:'Cinzel',serif;
   padding:24px;
+}
+
+.panel{
+  width:min(900px,96vw);
+  background:rgba(0,0,0,.35);
+  border:1px solid var(--outline);
+  border-radius:28px;
+  box-shadow:0 20px 60px rgba(0,0,0,.45);
+  padding:28px 22px 32px;
   text-align:center;
 }
-.card{
-  width:min(760px,92vw);
-  border-radius:22px;
-  border:1px solid rgba(255,255,255,.16);
-  background:rgba(0,0,0,.35);
-  box-shadow:0 20px 60px rgba(0,0,0,.45);
-  padding:26px 18px;
+
+h1{
+  font-weight:900;
+  letter-spacing:.05em;
+  font-size:clamp(28px,4.8vw,48px);
 }
-h1{font-weight:900;letter-spacing:.04em;font-size:clamp(26px,4.6vw,44px)}
-p{margin-top:10px;color:var(--muted);font-family:system-ui,-apple-system,"Noto Sans JP",sans-serif;font-size:clamp(14px,2.3vw,18px);line-height:1.6}
-small{display:block;margin-top:14px;opacity:.85}
+
+h2{
+  margin-top:6px;
+  font-family:system-ui,-apple-system,"Noto Sans JP",sans-serif;
+  font-size:clamp(14px,2.4vw,18px);
+  color:#cbd5e1;
+}
+
+/* Month grid */
+.months{
+  margin-top:28px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:16px;
+}
+
+a.month{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:92px;
+  border-radius:20px;
+  text-decoration:none;
+  color:#111;
+  font-weight:900;
+  font-size:1.15rem;
+  background:linear-gradient(145deg,#ffd166,#fff1b3);
+  box-shadow:0 10px 30px rgba(255,209,102,.35);
+  transition:transform .18s ease, box-shadow .25s ease;
+}
+
+a.month:hover{
+  transform:scale(1.05);
+  box-shadow:
+    0 0 22px rgba(255,209,102,.8),
+    0 0 50px rgba(255,209,102,.45);
+}
+
+footer{
+  margin-top:26px;
+  font-family:'Cinzel',serif;
+  color:#cbd5e1;
+  letter-spacing:.04em;
+  font-size:14px;
+}
 </style>
 </head>
 <body>
 
-<div class="card">
+<div class="panel">
   <h1>Booha Study Decks</h1>
-  <p>
-    This page is opened by Booha Adventure.<br>
-    ブーハーの学習デッキは、Booha Adventureから開きます。
-  </p>
-  <small>Bryan's English School</small>
+  <h2>Month Selection</h2>
+
+  <div class="months">
+    <a class="month" href="january/">January</a>
+    <a class="month" href="february/">February</a>
+    <a class="month" href="march/">March</a>
+    <a class="month" href="april/">April</a>
+    <a class="month" href="may/">May</a>
+    <a class="month" href="june/">June</a>
+    <a class="month" href="july/">July</a>
+    <a class="month" href="august/">August</a>
+    <a class="month" href="september/">September</a>
+    <a class="month" href="october/">October</a>
+    <a class="month" href="november/">November</a>
+    <a class="month" href="december/">December</a>
+  </div>
+
+  <footer>Bryan's English School</footer>
 </div>
-
-<script>
-/*
-  Optional redirect support:
-  If someone opens: /?m=january
-  it will send them to: /january/
-  (No menu is shown.)
-*/
-(function(){
-  const qs = new URLSearchParams(location.search);
-  const m = (qs.get('m') || '').toLowerCase().trim();
-
-  const allowed = new Set([
-    'january','february','march','april','may','june',
-    'july','august','september','october','november','december'
-  ]);
-
-  if(allowed.has(m)){
-    location.replace(m + '/');
-  }
-})();
-</script>
 
 </body>
 </html>
