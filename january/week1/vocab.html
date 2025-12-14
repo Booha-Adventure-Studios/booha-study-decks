@@ -47,20 +47,68 @@ header h3{font-size:clamp(16px,2.8vw,26px);font-weight:700;color:#dbeafe;}
 @keyframes stripeDown{0%{background-position:0 0;}100%{background-position:0 240px;}}
 
 .face{
-  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
-  border-radius:var(--radius);transition:opacity .5s ease,transform .6s ease;
+  position:absolute;
+  inset:0;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  text-align:center;
+  border-radius:var(--radius);
+
+  /* still prevents clipping */
+  padding:clamp(14px, 3.4vw, 28px);
+
+  transition:opacity .5s ease, transform .6s ease;
 }
+
 .face.hidden{opacity:0;transform:scale(0.98);}
 .face.visible{opacity:1;transform:scale(1);}
 
+/* EN (front) + JP (back) main line */
 .term h2{
-  margin:0;font-size:clamp(52px,10vw,120px);font-weight:900;line-height:1.1;color:#000;
-  text-shadow:0 0 6px rgba(255,255,255,.9),0 0 18px rgba(255,255,255,.6);
+  margin:0;
+  font-weight:900;
+  color:#000;
+
+  /* ✅ bigger again, but still safe for long lines */
+  font-size:clamp(26px, 6.4vw, 72px);
+  line-height:1.16;
+
+  max-width:92%;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+  text-wrap:balance;
+
+  text-shadow:
+    0 0 6px rgba(255,255,255,.9),
+    0 0 18px rgba(255,255,255,.6);
 }
+
+/* HIRAGANA/KANA line (the <p id="backSub">) */
 .term p{
-  margin-top:.7rem;font-size:clamp(30px,5.5vw,48px);font-weight:800;color:#000;
-  text-shadow:0 0 4px rgba(255,255,255,.8),0 0 12px rgba(255,255,255,.5);
+  margin-top:.65rem;
+
+  /* ✅ smaller than JP, always */
+  font-size:clamp(16px, 3.6vw, 30px);
+  line-height:1.15;
+
+  /* ✅ make JP feel stronger by comparison */
+  font-weight:800;
+  letter-spacing:.02em;
+
+  color:#000;
+  text-shadow:
+    0 0 4px rgba(255,255,255,.85),
+    0 0 12px rgba(255,255,255,.5);
+
+  max-width:92%;
+  overflow-wrap:anywhere;
+  word-break:break-word;
 }
+
 
 .sparkle{
   position:absolute;width:6px;height:6px;
@@ -81,6 +129,39 @@ button.btn{
 }
 .btn:active,#speakBtn:active{transform:scale(.98)}
 footer{margin:10px 0 24px;text-align:center;color:#d1d5db;font-family:'Cinzel',serif;font-size:clamp(14px,2vw,18px);letter-spacing:1px;opacity:.9;padding:0 12px;}
+@media (max-width: 420px){
+
+  /* Give the face a bit less padding so text can grow */
+  .face{
+    padding:18px 14px;
+  }
+
+  /* English / JP main line */
+  .term h2{
+    /* ✅ slightly bigger on phones */
+    font-size:clamp(30px, 8.2vw, 56px);
+    line-height:1.18;
+  }
+
+  /* Hiragana / kana line */
+  .term p{
+    margin-top:.55rem;
+
+    /* ✅ clearly smaller than JP */
+    font-size:clamp(15px, 4.2vw, 22px);
+
+    /* keep readable but secondary */
+    font-weight:700;
+    opacity:.92;
+  }
+
+  /* 🔥 EXTRA BOOST: JP only (back face) */
+  #backFace .term h2{
+    font-weight:900;           /* stronger than English */
+    letter-spacing:.04em;
+  }
+}
+  
 </style>
 </head>
 <body>
