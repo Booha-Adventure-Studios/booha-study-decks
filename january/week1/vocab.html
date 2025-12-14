@@ -8,259 +8,109 @@
 <link rel="icon" type="image/png" href="booha-ghost.png">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&display=swap" rel="stylesheet" />
 <style>
-:root{
-  --radius:28px;
-  --bg:url('https://static.wixstatic.com/media/fa59b9_f8915cfdff974d7883c730f51f577d31~mv2.jpg');
-}
-
-/* Reset */
-*{box-sizing:border-box;margin:0;padding:0}
-
-/* ✅ Allow safe scrolling + no footer overlap */
+:root{--radius:28px;--bg:url('https://static.wixstatic.com/media/fa59b9_f8915cfdff974d7883c730f51f577d31~mv2.jpg');}
+*{box-sizing:border-box;margin:0;padding:0;}
 html,body{
   min-height:100%;
   font-family:system-ui,Segoe UI,Roboto,Inter,sans-serif;
   background:linear-gradient(160deg,rgba(124,58,237,.1),rgba(34,211,238,.1)),#0f172a;
   color:#111;
-  position:relative;
   overflow:auto;
   -webkit-overflow-scrolling:touch;
 }
-
-/* Background image */
 body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  z-index:-1;
-  background-image:var(--bg);
-  background-size:cover;
-  background-position:center;
-  opacity:.25;
+  content:"";position:fixed;inset:0;z-index:-1;
+  background-image:var(--bg);background-size:cover;background-position:center;opacity:.25;
 }
-
-/* Page layout */
-.page{
-  min-height:100svh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-}
-
-/* Back to Menu */
 .back-btn{
-  position:fixed;
-  top:14px;
-  left:14px;
-  z-index:1000;
-  display:inline-flex;
-  align-items:center;
-  gap:.5rem;
-  padding:.55rem .9rem;
-  border-radius:999px;
-  background:#0b1020;
-  color:#fff;
-  border:1px solid rgba(255,255,255,.25);
-  box-shadow:0 10px 25px rgba(0,0,0,.35);
-  font-weight:800;
-  font-size:.9rem;
-  text-decoration:none;
-  -webkit-tap-highlight-color:transparent;
+  position:fixed;top:14px;left:14px;z-index:1000;
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.55rem .9rem;border-radius:999px;background:#0b1020;color:#fff;
+  border:1px solid rgba(255,255,255,.25);box-shadow:0 10px 25px rgba(0,0,0,.35);
+  font-weight:800;font-size:.92rem;text-decoration:none;-webkit-tap-highlight-color:transparent;
 }
+header{text-align:center;color:#fff;margin:86px 0 18px;padding:0 12px;}
+header h1{font-family:'Cinzel',serif;font-size:clamp(26px,4.5vw,50px);letter-spacing:1px;margin-bottom:8px;font-weight:900;}
+header h2{font-size:clamp(18px,3.2vw,30px);margin-bottom:6px;font-weight:800;}
+header h3{font-size:clamp(16px,2.8vw,26px);font-weight:700;color:#dbeafe;}
 
-/* Header */
-header{
-  text-align:center;
-  color:#fff;
-  margin:86px 0 18px;
-  padding:0 12px;
-}
-header h1{
-  font-family:'Cinzel',serif;
-  font-size:clamp(26px,4.5vw,50px);
-  letter-spacing:1px;
-  margin-bottom:8px;
-  font-weight:900;
-}
-header h2{
-  font-size:clamp(18px,3.2vw,30px);
-  margin-bottom:6px;
-  font-weight:800;
-}
-header h3{
-  font-size:clamp(16px,2.8vw,26px);
-  font-weight:700;
-  color:#dbeafe;
-}
-
-/* Card */
-.card-outer{
-  width:min(92vw,900px);
-  aspect-ratio:3/2;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  perspective:1000px;
-}
-
+.card-outer{width:min(92vw,900px);aspect-ratio:3/2;display:flex;align-items:center;justify-content:center;perspective:1000px;margin:0 auto;}
 .card{
-  width:100%;
-  height:100%;
-  border-radius:var(--radius);
+  width:100%;height:100%;border-radius:var(--radius);
   border:3px solid rgba(255,255,255,.25);
   box-shadow:0 30px 80px rgba(0,0,0,.3);
   overflow:hidden;
   background-size:100% 240px;
   animation:stripeDown 6s linear infinite;
   position:relative;
-  will-change:filter,transform;
 }
-
-/* tiny “magic pulse” on flips/changes */
-.card.pulse{
-  animation: stripeDown 6s linear infinite, pulseGlow .45s ease-out 1;
-}
-@keyframes pulseGlow{
-  0%{filter:brightness(1) saturate(1);transform:scale(1);}
-  50%{filter:brightness(1.12) saturate(1.12);transform:scale(1.01);}
-  100%{filter:brightness(1) saturate(1);transform:scale(1);}
-}
-
-@keyframes stripeDown{
-  0%{background-position:0 0;}
-  100%{background-position:0 240px;}
-}
+@keyframes stripeDown{0%{background-position:0 0;}100%{background-position:0 240px;}}
 
 .face{
-  position:absolute;
-  inset:0;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  border-radius:var(--radius);
-  transition:opacity .5s ease,transform .6s ease;
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  border-radius:var(--radius);transition:opacity .5s ease,transform .6s ease;
 }
 .face.hidden{opacity:0;transform:scale(0.98);}
 .face.visible{opacity:1;transform:scale(1);}
 
 .term h2{
-  margin:0;
-  font-size:clamp(52px,10vw,120px);
-  font-weight:900;
-  line-height:1.1;
-  color:#000;
+  margin:0;font-size:clamp(52px,10vw,120px);font-weight:900;line-height:1.1;color:#000;
   text-shadow:0 0 6px rgba(255,255,255,.9),0 0 18px rgba(255,255,255,.6);
 }
 .term p{
-  margin-top:.7rem;
-  font-size:clamp(30px,5.5vw,48px);
-  font-weight:700;
-  color:#000;
+  margin-top:.7rem;font-size:clamp(30px,5.5vw,48px);font-weight:800;color:#000;
   text-shadow:0 0 4px rgba(255,255,255,.8),0 0 12px rgba(255,255,255,.5);
 }
 
-/* Sparkles */
 .sparkle{
-  position:absolute;
-  width:6px;height:6px;
+  position:absolute;width:6px;height:6px;
   background:radial-gradient(circle at center,#fff8b0 0%,#ffd700 40%,transparent 70%);
-  border-radius:50%;
-  opacity:.95;
-  pointer-events:none;
-  z-index:2;
-  animation:sparkleFloat 2.2s ease-out forwards;
-  filter:blur(.5px);
+  border-radius:50%;opacity:.95;pointer-events:none;z-index:2;
+  animation:sparkleFloat 2.2s ease-out forwards;filter:blur(.5px);
 }
-@keyframes sparkleFloat{
-  0%{transform:translateY(0) scale(1);opacity:1;}
-  60%{opacity:.9;}
-  100%{transform:translateY(-200px) scale(.5);opacity:0;}
-}
+@keyframes sparkleFloat{0%{transform:translateY(0) scale(1);opacity:1;}60%{opacity:.9;}100%{transform:translateY(-200px) scale(.5);opacity:0;}}
 
-/* Controls */
-.actions{
-  display:flex;
-  gap:18px;
-  justify-content:center;
-  margin:26px 0 10px;
-  flex-wrap:wrap;
-  padding:0 12px;
-}
+.actions{display:flex;gap:18px;justify-content:center;margin:22px 0 12px;flex-wrap:wrap;padding:0 12px;}
 button.btn{
-  width:60px;
-  height:60px;
-  border-radius:16px;
-  border:none;
-  background:linear-gradient(180deg,#fff,#e0e0e0);
-  box-shadow:0 10px 25px rgba(0,0,0,.15);
-  font-weight:900;
-  cursor:pointer;
-  font-size:1.6rem;
-  -webkit-tap-highlight-color:transparent;
+  width:60px;height:60px;border-radius:16px;border:none;background:linear-gradient(180deg,#fff,#e0e0e0);
+  box-shadow:0 10px 25px rgba(0,0,0,.15);font-weight:900;cursor:pointer;font-size:1.6rem;-webkit-tap-highlight-color:transparent;
 }
 #speakBtn{
-  background:linear-gradient(180deg,#ff4444,#cc0000);
-  color:#fff;
+  background:linear-gradient(180deg,#ff4444,#cc0000);color:#fff;
   box-shadow:0 0 20px rgba(255,0,0,.35), 0 10px 25px rgba(0,0,0,.18);
 }
-#speakBtn:active, .btn:active{transform:scale(.98)}
-
-/* Footer (English only; never overlaps) */
-footer{
-  margin:10px 0 24px;
-  text-align:center;
-  color:#d1d5db;
-  font-family:'Cinzel',serif;
-  font-size:clamp(14px,2vw,18px);
-  letter-spacing:1px;
-  opacity:.9;
-  padding:0 12px;
-}
+.btn:active,#speakBtn:active{transform:scale(.98)}
+footer{margin:10px 0 24px;text-align:center;color:#d1d5db;font-family:'Cinzel',serif;font-size:clamp(14px,2vw,18px);letter-spacing:1px;opacity:.9;padding:0 12px;}
 </style>
 </head>
-
 <body>
-<div class="page">
 
-  <a href="#" class="back-btn" id="backMenu">❮ Back to Menu ／ メニューにもどる</a>
+<a href="index.html" class="back-btn">❮ Back to Menu ／ メニューにもどる</a>
 
-  <header>
-    <h1>Booha Study Decks</h1>
-    <h2>January Week 1 – Vocabulary</h2>
-    <h3>１月第１週（Vocabulary）</h3>
-  </header>
+<header>
+  <h1>Booha Study Decks</h1>
+  <h2>January Week 1 – Vocabulary</h2>
+  <h3>１月第１週（Vocabulary）</h3>
+</header>
 
-  <div class="card-outer">
-    <div class="card" id="card">
-      <div id="sparkleContainer"></div>
-
-      <div class="face visible" id="frontFace">
-        <div class="term"><h2 id="frontTitle"></h2></div>
-      </div>
-
-      <div class="face hidden" id="backFace">
-        <div class="term">
-          <h2 id="backTitle"></h2>
-          <p id="backSub"></p>
-        </div>
-      </div>
-    </div>
+<div class="card-outer">
+  <div class="card" id="card">
+    <div id="sparkleContainer"></div>
+    <div class="face visible" id="frontFace"><div class="term"><h2 id="frontTitle"></h2></div></div>
+    <div class="face hidden" id="backFace"><div class="term"><h2 id="backTitle"></h2><p id="backSub"></p></div></div>
   </div>
-
-  <div class="actions">
-    <button class="btn" id="prevBtn" aria-label="Previous">❮</button>
-    <button class="btn" id="flipBtn" aria-label="Flip">⤾</button>
-    <button class="btn" id="nextBtn" aria-label="Next">❯</button>
-    <button class="btn" id="speakBtn" aria-label="Play audio">▶</button>
-  </div>
-
-  <footer>Bryan's English School</footer>
 </div>
 
+<div class="actions">
+  <button class="btn" id="prevBtn" aria-label="Previous">❮</button>
+  <button class="btn" id="flipBtn" aria-label="Flip">⤾</button>
+  <button class="btn" id="nextBtn" aria-label="Next">❯</button>
+  <button class="btn" id="speakBtn" aria-label="Play audio">▶</button>
+</div>
+
+<footer>Bryan's English School</footer>
+
 <script>
-/* Color palettes */
 const PALETTES=[
   ["#ff007f","#00c3ff","#ffe600","#39ff14","#8b00ff","#ff4d4d"],
   ["#ff4b1f","#1fddff","#f9ed69","#00ff9c","#d16ba5","#8ef6e4"],
@@ -269,23 +119,25 @@ const PALETTES=[
   ["#ff5f6d","#ffc371","#00c9ff","#92fe9d","#a890fe","#fbc8d4"]
 ];
 
-/* ✅ Week 1 Vocabulary (15) */
+const AUDIO_BASE = "audio/vocab/";
+
+/* ✅ 15 items, each with its exact mp3 filename */
 const CARDS=[
-  {en:"goal",       jp:"目標",     hira:"もくひょう"},
-  {en:"plan",       jp:"計画",     hira:"けいかく"},
-  {en:"future",     jp:"未来",     hira:"みらい"},
-  {en:"dream",      jp:"夢",       hira:"ゆめ"},
-  {en:"challenge",  jp:"挑戦",     hira:"ちょうせん"},
-  {en:"try",        jp:"挑戦する", hira:"ちょうせん する"},
-  {en:"change",     jp:"変える",   hira:"かえる"},
-  {en:"habit",      jp:"習慣",     hira:"しゅうかん"},
-  {en:"exercise",   jp:"運動",     hira:"うんどう"},
-  {en:"study",      jp:"勉強",     hira:"べんきょう"},
-  {en:"learn",      jp:"学ぶ",     hira:"まなぶ"},
-  {en:"practice",   jp:"練習",     hira:"れんしゅう"},
-  {en:"success",    jp:"成功",     hira:"せいこう"},
-  {en:"focus",      jp:"集中",     hira:"しゅうちゅう"},
-  {en:"motivation", jp:"やる気",   hira:"やるき"}
+  {en:"goal",       jp:"目標",     hira:"もくひょう",   mp3:"v01_goal.mp3"},
+  {en:"plan",       jp:"計画",     hira:"けいかく",     mp3:"v02_plan.mp3"},
+  {en:"future",     jp:"未来",     hira:"みらい",       mp3:"v03_future.mp3"},
+  {en:"dream",      jp:"夢",       hira:"ゆめ",         mp3:"v04_dream.mp3"},
+  {en:"challenge",  jp:"挑戦",     hira:"ちょうせん",   mp3:"v05_challenge.mp3"},
+  {en:"try",        jp:"挑戦する", hira:"ちょうせん する", mp3:"v06_try.mp3"},
+  {en:"change",     jp:"変える",   hira:"かえる",       mp3:"v07_change.mp3"},
+  {en:"habit",      jp:"習慣",     hira:"しゅうかん",   mp3:"v08_habit.mp3"},
+  {en:"exercise",   jp:"運動",     hira:"うんどう",     mp3:"v09_exercise.mp3"},
+  {en:"study",      jp:"勉強",     hira:"べんきょう",   mp3:"v10_study.mp3"},
+  {en:"learn",      jp:"学ぶ",     hira:"まなぶ",       mp3:"v11_learn.mp3"},
+  {en:"practice",   jp:"練習",     hira:"れんしゅう",   mp3:"v12_practice.mp3"},
+  {en:"success",    jp:"成功",     hira:"せいこう",     mp3:"v13_success.mp3"},
+  {en:"focus",      jp:"集中",     hira:"しゅうちゅう", mp3:"v14_focus.mp3"},
+  {en:"motivation", jp:"やる気",   hira:"やるき",       mp3:"v15_motivation.mp3"}
 ];
 
 function shuffle(a){
@@ -296,7 +148,7 @@ function shuffle(a){
 }
 shuffle(CARDS);
 
-let i=0, showBack=false;
+let i=0,showBack=false;
 
 const card=document.getElementById('card');
 const frontFace=document.getElementById('frontFace');
@@ -307,15 +159,9 @@ const backSub=document.getElementById('backSub');
 const sparkContainer=document.getElementById("sparkleContainer");
 
 function buildStripeBackground(colors){
-  const band=40;
-  let stops=[];
-  colors.forEach((c,idx)=>{
-    const start=idx*band;
-    stops.push(`${c} ${start}px ${start+band}px`);
-  });
-  const all=stops.concat(
-    stops.map(s=>s.replace(/(\d+)px/g,(m,n)=>(+n+band*colors.length)+'px'))
-  );
+  const band=40;let stops=[];
+  colors.forEach((c,idx)=>{const start=idx*band;stops.push(`${c} ${start}px ${start+band}px`);});
+  const all=stops.concat(stops.map(s=>s.replace(/(\d+)px/g,(m,n)=>(+n+band*colors.length)+'px')));
   return `repeating-linear-gradient(180deg,${all.join(',')})`;
 }
 
@@ -332,44 +178,34 @@ function triggerSparkles(){
   }
 }
 
-/* ✅ Sage vocab audio: audio/vocab/v01_goal.mp3 ... */
-let sageAudio = null;
+/* ✅ single reusable audio element (more reliable on Safari) */
+let sageAudio = new Audio();
+sageAudio.preload = "auto";
 
-function speak(){
+async function speak(){
   const c = CARDS[i];
-  if(!c || !c.en) return;
+  if(!c || !c.mp3) return;
 
-  const num = String(i + 1).padStart(2, "0");
-  const safe = c.en
-    .toLowerCase()
-    .trim()
-    .replace(/['’]/g, "")
-    .replace(/[^a-z0-9]+/g, "_")
-    .replace(/^_+|_+$/g, "");
+  const src = AUDIO_BASE + c.mp3;
 
-  const src = `audio/vocab/v${num}_${safe}.mp3`;
+  try{ sageAudio.pause(); }catch{}
+  try{ sageAudio.currentTime = 0; }catch{}
+  sageAudio.src = src;
 
-  if(!sageAudio) sageAudio = new Audio();
-  const a = sageAudio;
-
-  try{ a.pause(); }catch{}
-  try{ a.currentTime = 0; }catch{}
-  a.src = src;
-
-  a.onplay = ()=>triggerSparkles();
-  a.play().catch(()=>{ /* tap again if blocked */ });
-}
-
-function pulse(){
-  card.classList.remove('pulse');
-  void card.offsetWidth;
-  card.classList.add('pulse');
+  try{
+    await sageAudio.play();
+    triggerSparkles();
+  }catch(err){
+    console.log("[Sage blocked/missing]", err, "src=", src);
+    /* If you want a visible error while testing:
+       alert("Sage failed: " + src);
+    */
+  }
 }
 
 function show(){
   const c=CARDS[i];
   const palette=PALETTES[i%PALETTES.length];
-
   card.style.backgroundImage=buildStripeBackground(palette);
 
   frontTitle.textContent=c.en;
@@ -383,34 +219,12 @@ function show(){
     backFace.classList.replace("visible","hidden");
     frontFace.classList.replace("hidden","visible");
   }
-
-  pulse();
 }
 
-document.getElementById('flipBtn').onclick=()=>{
-  showBack=!showBack;
-  show();
-};
-
-document.getElementById('nextBtn').onclick=()=>{
-  i=(i+1)%CARDS.length;
-  showBack=false;
-  show();
-};
-
-document.getElementById('prevBtn').onclick=()=>{
-  i=(i-1+CARDS.length)%CARDS.length;
-  showBack=false;
-  show();
-};
-
-document.getElementById('speakBtn').onclick=()=>{ speak(); };
-
-/* Back to weekly menu index */
-document.getElementById('backMenu').onclick=(e)=>{
-  e.preventDefault();
-  location.href='index.html';
-};
+document.getElementById('flipBtn').onclick=()=>{showBack=!showBack;show();};
+document.getElementById('nextBtn').onclick=()=>{i=(i+1)%CARDS.length;showBack=false;show();};
+document.getElementById('prevBtn').onclick=()=>{i=(i-1+CARDS.length)%CARDS.length;showBack=false;show();};
+document.getElementById('speakBtn').onclick=()=>{speak();};
 
 show();
 </script>
