@@ -15,6 +15,7 @@
   --yellow:#fff680;
   --purple:#c77dff;
   --ink:#fff;
+  --outline:#000;            /* ✅ thick black outline */
 }
 
 /* Reset */
@@ -61,12 +62,18 @@ a.deck{
   align-items:center;
   justify-content:center;
   width:160px;height:160px;
-  border-radius:20px;
+  border-radius:22px;
   text-decoration:none;
   color:#111;
   font-weight:900;
   font-size:1.2rem;
-  box-shadow:0 0 25px rgba(255,255,255,.15);
+
+  /* ✅ thick outline + deeper “toy” look */
+  border:6px solid var(--outline);
+  box-shadow:
+    0 14px 28px rgba(0,0,0,.55),
+    0 0 0 2px rgba(255,255,255,.08) inset;
+
   transition:transform .18s ease, box-shadow .25s ease, filter .25s ease;
   animation:stripes 10s linear infinite;
   background-size:300% 300%;
@@ -82,12 +89,12 @@ a.deck:nth-child(1){background:linear-gradient(145deg,var(--pink),#ffc0cb,var(--
 a.deck:nth-child(2){background:linear-gradient(145deg,var(--blue),#c0ffff,var(--purple));}
 a.deck:nth-child(3){background:linear-gradient(145deg,var(--yellow),#fff7b2,var(--pink));}
 
-/* Hover */
-a.deck:nth-child(1):hover{transform:scale(1.05);box-shadow:0 0 30px var(--pink),0 0 60px rgba(255,126,185,.5);filter:brightness(1.15);}
-a.deck:nth-child(2):hover{transform:scale(1.05);box-shadow:0 0 30px var(--blue),0 0 60px rgba(94,230,255,.5);filter:brightness(1.15);}
-a.deck:nth-child(3):hover{transform:scale(1.05);box-shadow:0 0 30px var(--yellow),0 0 60px rgba(255,246,128,.5);filter:brightness(1.15);}
+/* Hover (desktop) */
+a.deck:nth-child(1):hover{transform:scale(1.05);box-shadow:0 0 0 6px #000, 0 0 34px var(--pink),0 0 80px rgba(255,126,185,.55);filter:brightness(1.12);}
+a.deck:nth-child(2):hover{transform:scale(1.05);box-shadow:0 0 0 6px #000, 0 0 34px var(--blue),0 0 80px rgba(94,230,255,.55);filter:brightness(1.12);}
+a.deck:nth-child(3):hover{transform:scale(1.05);box-shadow:0 0 0 6px #000, 0 0 34px var(--yellow),0 0 80px rgba(255,246,128,.55);filter:brightness(1.12);}
 
-/* Stripe motion */
+/* Animations */
 @keyframes stripes{0%{background-position:0 0;}100%{background-position:300% 300%;}}
 @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
 
@@ -104,47 +111,91 @@ footer{
 }
 
 /* =========================
-   Click FX: 5-second shimmer
+   Click FX: “Dance + Flash”
    ========================= */
 
-/* quick “press” */
+/* quick press */
 a.deck.tap{transform:scale(.96);}
 
-/* 5-second glow ring */
+/* while music plays */
 a.deck.playing{
-  filter:brightness(1.18) saturate(1.2);
-  transform:scale(1.03);
+  transform:scale(1.06) rotate(-1.2deg);
+  filter:brightness(1.2) saturate(1.25);
+  animation:
+    stripes 2.2s linear infinite,
+    wiggle .22s ease-in-out infinite,
+    strobe  .38s linear infinite;
 }
 
-/* color-specific glow */
-a.deck.playing.fx-pink{ box-shadow:0 0 18px rgba(255,126,185,.9), 0 0 60px rgba(255,126,185,.55), 0 0 120px rgba(255,126,185,.25); }
-a.deck.playing.fx-blue{ box-shadow:0 0 18px rgba(94,230,255,.9), 0 0 60px rgba(94,230,255,.55), 0 0 120px rgba(94,230,255,.25); }
-a.deck.playing.fx-yellow{ box-shadow:0 0 18px rgba(255,246,128,.95), 0 0 60px rgba(255,246,128,.55), 0 0 120px rgba(255,246,128,.25); }
+/* color-specific glow during party */
+a.deck.playing.fx-pink{
+  box-shadow:
+    0 0 0 6px #000,
+    0 0 22px rgba(255,126,185,.95),
+    0 0 70px rgba(255,126,185,.65),
+    0 0 140px rgba(255,126,185,.28);
+}
+a.deck.playing.fx-blue{
+  box-shadow:
+    0 0 0 6px #000,
+    0 0 22px rgba(94,230,255,.95),
+    0 0 70px rgba(94,230,255,.65),
+    0 0 140px rgba(94,230,255,.28);
+}
+a.deck.playing.fx-yellow{
+  box-shadow:
+    0 0 0 6px #000,
+    0 0 22px rgba(255,246,128,.98),
+    0 0 70px rgba(255,246,128,.70),
+    0 0 140px rgba(255,246,128,.30);
+}
 
-/* animated shimmer overlay (runs while “playing”) */
+/* animated sparkle-shimmer overlay */
 a.deck.playing::after{
   content:"";
   position:absolute;
-  inset:-30%;
+  inset:-35%;
   background:
-    radial-gradient(circle at 25% 20%, rgba(255,255,255,.75), transparent 55%),
-    radial-gradient(circle at 80% 85%, rgba(255,255,255,.45), transparent 62%),
-    conic-gradient(from 0deg, rgba(255,255,255,.0), rgba(255,255,255,.35), rgba(255,255,255,.0));
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,.75), transparent 55%),
+    radial-gradient(circle at 85% 80%, rgba(255,255,255,.45), transparent 62%),
+    conic-gradient(from 0deg, rgba(255,255,255,0), rgba(255,255,255,.40), rgba(255,255,255,0));
   mix-blend-mode:screen;
-  opacity:.75;
-  animation: shimmer5 1s linear infinite;
+  opacity:.85;
+  animation: shimmerParty .55s linear infinite;
   pointer-events:none;
 }
 
-@keyframes shimmer5{
-  0%{transform:translateY(10px) rotate(0deg);}
-  100%{transform:translateY(-10px) rotate(18deg);}
+@keyframes shimmerParty{
+  0%{transform:translateY(12px) rotate(0deg) scale(1);}
+  100%{transform:translateY(-12px) rotate(18deg) scale(1.02);}
+}
+
+/* wiggle dance */
+@keyframes wiggle{
+  0%{transform:scale(1.06) rotate(-1.6deg) translateY(0);}
+  50%{transform:scale(1.06) rotate( 1.6deg) translateY(-2px);}
+  100%{transform:scale(1.06) rotate(-1.6deg) translateY(0);}
+}
+
+/* border flash (keeps thick black outline but adds “neon pop”) */
+@keyframes strobe{
+  0%{outline:0px solid transparent;}
+  25%{outline:6px solid rgba(255,255,255,.35);}
+  50%{outline:6px solid rgba(0,0,0,.0);}
+  75%{outline:6px solid rgba(255,255,255,.35);}
+  100%{outline:0px solid transparent;}
+}
+
+/* Reduce motion (optional kindness) */
+@media (prefers-reduced-motion:reduce){
+  a.deck.playing{animation:stripes 10s linear infinite;}
+  a.deck.playing::after{animation:none;}
 }
 </style>
 </head>
 <body>
 
-<!-- ✅ Put studydeck.mp3 in the SAME folder as this index.html -->
+<!-- ✅ studydeck.mp3 must be in the same folder as this index.html -->
 <audio id="clickBgm" preload="auto">
   <source src="studydeck.mp3" type="audio/mpeg">
 </audio>
@@ -155,81 +206,74 @@ a.deck.playing::after{
   <h3>January Week 1 Card Decks<br>１月第１週カードデッキ</h3>
 
   <div class="deck-links">
-  <a class="deck" data-fx="fx-pink" href="vocab.html">
-    Vocabulary<br><span style="font-size:0.8em;">語彙</span>
-  </a>
-  <a class="deck" data-fx="fx-blue" href="sentences.html">
-    Sentences<br><span style="font-size:0.8em;">文</span>
-  </a>
-  <a class="deck" data-fx="fx-yellow" href="questions.html">
-    Questions<br><span style="font-size:0.8em;">質問</span>
-  </a>
-</div>
+    <a class="deck" data-fx="fx-pink" href="vocab.html">
+      Vocabulary<br><span style="font-size:0.8em;">語彙</span>
+    </a>
+    <a class="deck" data-fx="fx-blue" href="sentences.html">
+      Sentences<br><span style="font-size:0.8em;">文</span>
+    </a>
+    <a class="deck" data-fx="fx-yellow" href="questions.html">
+      Questions<br><span style="font-size:0.8em;">質問</span>
+    </a>
+  </div>
 
-
- <footer>Bryan’s English School</footer>
+  <footer>Bryan's English School</footer>
 </section>
 
 <script>
 const clickBgm = document.getElementById('clickBgm');
 
-/* Safety: stop + reset */
 function stopClickBgm(){
   try{ clickBgm.pause(); }catch{}
   try{ clickBgm.currentTime = 0; }catch{}
 }
 
-/* Play then navigate (keeps iOS happy: runs directly on click) */
 async function playThenGo(anchor){
   const url = anchor.getAttribute('href');
 
-  // visual press + shimmer
+  // quick press
   anchor.classList.add('tap');
   setTimeout(()=>anchor.classList.remove('tap'), 180);
 
-  // prevent double clicks
   if(anchor.classList.contains('playing')) return;
 
-  // stop any previous play + clear other tiles
+  // clear other tiles
   document.querySelectorAll('a.deck.playing').forEach(el=>{
     el.classList.remove('playing','fx-pink','fx-blue','fx-yellow');
   });
+
   stopClickBgm();
 
-  // apply color FX
+  // apply party mode + color FX
   const fx = anchor.dataset.fx || '';
   anchor.classList.add('playing');
   if(fx) anchor.classList.add(fx);
 
-  // play sound
-  let ended = false;
+  let navigated = false;
   const go = ()=>{
-    if(ended) return;
-    ended = true;
+    if(navigated) return;
+    navigated = true;
     window.location.href = url;
   };
 
-  // If audio ends normally, navigate then
   clickBgm.onended = go;
 
-  // Backup: if audio fails/blocked, still navigate quickly
-  const fallback = setTimeout(go, 650);
+  // safety fallback
+  const fallback = setTimeout(go, 700);
 
   try{
     clickBgm.volume = 0.9;
     clickBgm.currentTime = 0;
     await clickBgm.play();
 
-    // audio started: cancel quick fallback, and instead wait ~5s max
+    // audio started: keep party for ~5s then go
     clearTimeout(fallback);
     setTimeout(go, 5200);
   }catch(e){
-    // if blocked, just go
     go();
   }
 }
 
-/* Bind clicks */
 document.querySelectorAll('a.deck').forEach(a=>{
   a.addEventListener('click', (e)=>{
     e.preventDefault();
