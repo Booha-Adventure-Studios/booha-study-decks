@@ -16,9 +16,9 @@
   --purple:#c77dff;
   --ink:#fff;
 
-  /* outline */
   --outline:#000;
-  --outlineW:10px; /* thicker */
+  --outlineW:12px;              /* ✅ thicker */
+  --tileR:30px;                 /* ✅ rounder */
 }
 
 /* Reset */
@@ -50,7 +50,7 @@ h1{font-size:clamp(32px,5vw,60px);letter-spacing:1px;font-weight:900;}
 h2{font-size:clamp(22px,3vw,36px);font-weight:800;color:#ccc;}
 h3{font-size:clamp(18px,2.5vw,28px);color:#aaa;margin-top:6px;}
 
-/* Tiles */
+/* Tiles container */
 .deck-links{
   display:flex;
   gap:1.2rem;
@@ -59,20 +59,31 @@ h3{font-size:clamp(18px,2.5vw,28px);color:#aaa;margin-top:6px;}
   padding:10px 0 6px;
 }
 
+/* =========================
+   TILE (fixed corner leak)
+   ========================= */
 a.deck{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-
   width:160px;
   height:160px;
-  border-radius:22px;
+  border-radius:var(--tileR);
 
   text-decoration:none;
   color:#111;
   font-weight:900;
   font-size:1.2rem;
+
+  position:relative;
+
+  /* IMPORTANT: do NOT clip here (Safari transform corner leak) */
+  overflow:visible;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+  touch-action:manipulation;
 
   /* base shadow */
   box-shadow:
@@ -80,39 +91,53 @@ a.deck{
     0 0 0 2px rgba(255,255,255,.10) inset;
 
   transition:transform .18s ease, box-shadow .25s ease, filter .25s ease;
-  animation:stripes 10s linear infinite;
-  background-size:300% 300%;
-  position:relative;
-  overflow:hidden;
-
-  -webkit-tap-highlight-color:transparent;
-  user-select:none;
-  touch-action:manipulation;
 }
 
-/* Keep text above effects */
+/* ✅ Hard clipping layer (this is the real fix) */
+a.deck .clip{
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  overflow:hidden;                 /* ✅ clips shimmer perfectly */
+  z-index:1;
+}
+
+/* Background + content live INSIDE the clip */
+a.deck .inner{
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  background-size:300% 300%;
+  animation:stripes 10s linear infinite;
+}
+
+/* Base gradients moved onto .inner (not the anchor) */
+a.deck:nth-child(1) .inner{background:linear-gradient(145deg,var(--pink),#ffc0cb,var(--purple));}
+a.deck:nth-child(2) .inner{background:linear-gradient(145deg,var(--blue),#c0ffff,var(--purple));}
+a.deck:nth-child(3) .inner{background:linear-gradient(145deg,var(--yellow),#fff7b2,var(--pink));}
+
+/* Text always above shimmer */
 a.deck > *{ position:relative; z-index:6; }
 
-/* ✅ OUTLINE ON TOP (hides the “square glow edge”) */
+/* ✅ OUTLINE ON TOP (fixed) */
 a.deck::before{
   content:"";
   position:absolute;
-  inset:0;
+  inset:-1px;                      /* ✅ covers tiny transform gaps */
   border:var(--outlineW) solid var(--outline);
   border-radius:inherit;
-  z-index:8;              /* above glow + shimmer */
+  z-index:10;                      /* ✅ above glow + shimmer + clip */
   pointer-events:none;
 }
 
-/* Base gradients */
-a.deck:nth-child(1){background:linear-gradient(145deg,var(--pink),#ffc0cb,var(--purple));}
-a.deck:nth-child(2){background:linear-gradient(145deg,var(--blue),#c0ffff,var(--purple));}
-a.deck:nth-child(3){background:linear-gradient(145deg,var(--yellow),#fff7b2,var(--pink));}
-
 /* Hover (desktop) */
-a.deck:nth-child(1):hover{transform:scale(1.05);filter:brightness(1.14);}
-a.deck:nth-child(2):hover{transform:scale(1.05);filter:brightness(1.14);}
-a.deck:nth-child(3):hover{transform:scale(1.05);filter:brightness(1.14);}
+a.deck:hover{transform:scale(1.05);filter:brightness(1.14);}
 
 /* Animations */
 @keyframes stripes{0%{background-position:0 0;}100%{background-position:300% 300%;}}
@@ -133,21 +158,17 @@ footer{
 /* =========================
    Click FX: BIG “Dance + Flash”
    ========================= */
-
-/* quick press */
 a.deck.tap{transform:scale(.96);}
 
-/* while music plays */
 a.deck.playing{
   transform:scale(1.08) rotate(-1.4deg);
   filter:brightness(1.25) saturate(1.35);
   animation:
-    stripes 1.8s linear infinite,
     wiggle .18s ease-in-out infinite,
     strobe  .26s linear infinite;
 }
 
-/* MORE glow (and it stays behind the outline) */
+/* MORE glow */
 a.deck.playing.fx-pink{
   box-shadow:
     0 24px 55px rgba(0,0,0,.75),
@@ -173,12 +194,12 @@ a.deck.playing.fx-yellow{
     0 0 0 2px rgba(255,255,255,.10) inset;
 }
 
-/* shimmer overlay (kept UNDER outline) */
+/* shimmer overlay (UNDER outline) — clipped by .clip */
 a.deck.playing::after{
   content:"";
   position:absolute;
   inset:-40%;
-  z-index:4; /* below outline (8) and text (6) */
+  z-index:3; /* under outline (10), over base */
   background:
     radial-gradient(circle at 20% 20%, rgba(255,255,255,.85), transparent 55%),
     radial-gradient(circle at 85% 80%, rgba(255,255,255,.55), transparent 62%),
@@ -189,19 +210,20 @@ a.deck.playing::after{
   pointer-events:none;
 }
 
+/* ✅ ensure shimmer is visually clipped too */
+a.deck.playing::after{
+  /* nothing else needed—clip layer stops corner leaks */
+}
+
 @keyframes shimmerParty{
   0%{transform:translateY(14px) rotate(0deg) scale(1);}
   100%{transform:translateY(-14px) rotate(18deg) scale(1.03);}
 }
-
-/* wiggle dance */
 @keyframes wiggle{
   0%{transform:scale(1.08) rotate(-2.0deg) translateY(0);}
   50%{transform:scale(1.08) rotate( 2.0deg) translateY(-3px);}
   100%{transform:scale(1.08) rotate(-2.0deg) translateY(0);}
 }
-
-/* strobe: flashes a WHITE ring outside the black outline */
 @keyframes strobe{
   0%{filter:brightness(1.25) saturate(1.35);}
   50%{filter:brightness(1.38) saturate(1.55);}
@@ -210,14 +232,13 @@ a.deck.playing::after{
 
 /* accessibility */
 @media (prefers-reduced-motion:reduce){
-  a.deck.playing{animation:stripes 10s linear infinite;}
+  a.deck.playing{animation:none;}
   a.deck.playing::after{animation:none;}
 }
 </style>
 </head>
 <body>
 
-<!-- ✅ studydeck.mp3 in SAME folder as this index.html -->
 <audio id="clickBgm" preload="auto">
   <source src="studydeck.mp3" type="audio/mpeg">
 </audio>
@@ -228,15 +249,31 @@ a.deck.playing::after{
   <h3>January Week 1 Card Decks<br>１月第１週カードデッキ</h3>
 
   <div class="deck-links">
+
     <a class="deck" data-fx="fx-pink" href="vocab.html">
-      Vocabulary<br><span style="font-size:0.8em;">語彙</span>
+      <div class="clip">
+        <div class="inner">
+          Vocabulary<br><span style="font-size:0.8em;">語彙</span>
+        </div>
+      </div>
     </a>
+
     <a class="deck" data-fx="fx-blue" href="sentences.html">
-      Sentences<br><span style="font-size:0.8em;">文</span>
+      <div class="clip">
+        <div class="inner">
+          Sentences<br><span style="font-size:0.8em;">文</span>
+        </div>
+      </div>
     </a>
+
     <a class="deck" data-fx="fx-yellow" href="questions.html">
-      Questions<br><span style="font-size:0.8em;">質問</span>
+      <div class="clip">
+        <div class="inner">
+          Questions<br><span style="font-size:0.8em;">質問</span>
+        </div>
+      </div>
     </a>
+
   </div>
 
   <footer>Bryan's English School</footer>
@@ -268,11 +305,11 @@ async function playThenGo(anchor){
   anchor.classList.add('playing');
   if(fx) anchor.classList.add(fx);
 
-  let navigated = false;
-  const go = ()=>{
+  let navigated=false;
+  const go=()=>{
     if(navigated) return;
-    navigated = true;
-    window.location.href = url;
+    navigated=true;
+    window.location.href=url;
   };
 
   clickBgm.onended = go;
@@ -283,16 +320,15 @@ async function playThenGo(anchor){
     clickBgm.volume = 0.95;
     clickBgm.currentTime = 0;
     await clickBgm.play();
-
     clearTimeout(fallback);
-    setTimeout(go, 5200); // ~5 sec
+    setTimeout(go, 5200);
   }catch(e){
     go();
   }
 }
 
 document.querySelectorAll('a.deck').forEach(a=>{
-  a.addEventListener('click', (e)=>{
+  a.addEventListener('click',(e)=>{
     e.preventDefault();
     playThenGo(a);
   });
