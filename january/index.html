@@ -1,1 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>Booha Study Decks – Main Menu</title>
+<meta name="theme-color" content="#0b1020" />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Noto+Sans+JP:wght@500;700&display=swap" rel="stylesheet">
 
+<style>
+:root{
+  --bg:#0b1020;
+  --ink:#fff;
+  --card:#111827;
+  --outline:#ffffff26;
+  --gold:#ffd166;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+
+body{
+  background:
+    radial-gradient(circle at 20% 10%, rgba(124,58,237,.28), transparent 55%),
+    radial-gradient(circle at 80% 90%, rgba(94,230,255,.22), transparent 55%),
+    var(--bg);
+  color:var(--ink);
+  font-family:'Cinzel',serif;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+}
+
+.panel{
+  width:min(820px,94vw);
+  background:rgba(0,0,0,.35);
+  border:1px solid var(--outline);
+  border-radius:26px;
+  box-shadow:0 20px 60px rgba(0,0,0,.45);
+  padding:26px 22px 28px;
+  text-align:center;
+}
+
+h1{
+  font-weight:900;
+  letter-spacing:.05em;
+  font-size:clamp(26px,4.5vw,44px);
+}
+
+h2{
+  margin-top:6px;
+  font-family:system-ui,-apple-system,"Noto Sans JP",sans-serif;
+  font-size:clamp(14px,2.4vw,18px);
+  color:#cbd5e1;
+}
+
+.weeks{
+  margin-top:26px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:16px;
+}
+
+a.week{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:92px;
+  border-radius:18px;
+  text-decoration:none;
+  color:#111;
+  font-weight:900;
+  font-size:1.1rem;
+  background:linear-gradient(145deg,#ffd166,#fff1b3);
+  box-shadow:0 10px 30px rgba(255,209,102,.35);
+  transition:transform .18s ease, box-shadow .25s ease;
+}
+
+a.week:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 22px rgba(255,209,102,.8), 0 0 50px rgba(255,209,102,.45);
+}
+
+footer{
+  margin-top:22px;
+  font-family:'Cinzel',serif;
+  color:#cbd5e1;
+  letter-spacing:.04em;
+  font-size:14px;
+}
+</style>
+</head>
+<body>
+
+<div class="panel">
+  <h1>Booha Study Decks</h1>
+  <h2>Teacher / Admin Menu</h2>
+
+  <div class="weeks">
+    <a class="week" href="january/week1/">Week 1</a>
+    <a class="week" href="january/week2/">Week 2</a>
+    <a class="week" href="january/week3/">Week 3</a>
+    <a class="week" href="january/week4/">Week 4</a>
+  </div>
+
+  <footer>Bryan's English School</footer>
+</div>
+
+</body>
+</html>
