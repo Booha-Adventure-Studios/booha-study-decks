@@ -58,8 +58,8 @@ header h3{font-size:clamp(16px,2.8vw,26px);font-weight:700;color:#dbeafe;}
   text-align:center;
   border-radius:var(--radius);
 
-  /* 🔑 THIS fixes long sentences */
-  padding:clamp(16px, 4vw, 32px);
+  /* still prevents clipping */
+  padding:clamp(14px, 3.4vw, 28px);
 
   transition:opacity .5s ease, transform .6s ease;
 }
@@ -67,26 +67,48 @@ header h3{font-size:clamp(16px,2.8vw,26px);font-weight:700;color:#dbeafe;}
 .face.hidden{opacity:0;transform:scale(0.98);}
 .face.visible{opacity:1;transform:scale(1);}
 
+/* EN (front) + JP (back) main line */
 .term h2{
   margin:0;
   font-weight:900;
   color:#000;
 
-  /* 🔑 sentence-safe sizing */
-  font-size:clamp(22px, 6vw, 60px);
-  line-height:1.2;
+  /* ✅ bigger again, but still safe for long lines */
+  font-size:clamp(26px, 6.4vw, 72px);
+  line-height:1.16;
 
-  /* wrapping + containment */
   max-width:92%;
-  word-break:break-word;
   overflow-wrap:anywhere;
+  word-break:break-word;
   text-wrap:balance;
 
-  /* keep your glow */
   text-shadow:
     0 0 6px rgba(255,255,255,.9),
     0 0 18px rgba(255,255,255,.6);
 }
+
+/* HIRAGANA/KANA line (the <p id="backSub">) */
+.term p{
+  margin-top:.65rem;
+
+  /* ✅ smaller than JP, always */
+  font-size:clamp(16px, 3.6vw, 30px);
+  line-height:1.15;
+
+  /* ✅ make JP feel stronger by comparison */
+  font-weight:800;
+  letter-spacing:.02em;
+
+  color:#000;
+  text-shadow:
+    0 0 4px rgba(255,255,255,.85),
+    0 0 12px rgba(255,255,255,.5);
+
+  max-width:92%;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+
 
 .term p{
   margin-top:.7rem;font-size:clamp(30px,5.5vw,48px);font-weight:800;color:#000;
