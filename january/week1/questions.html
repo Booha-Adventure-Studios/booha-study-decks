@@ -134,6 +134,38 @@ button.btn{
 }
 .btn:active,#speakBtn:active{transform:scale(.98)}
 footer{margin:10px 0 24px;text-align:center;color:#d1d5db;font-family:'Cinzel',serif;font-size:clamp(14px,2vw,18px);letter-spacing:1px;opacity:.9;padding:0 12px;}
+@media (max-width: 420px){
+
+  /* Give the face a bit less padding so text can grow */
+  .face{
+    padding:18px 14px;
+  }
+
+  /* English / JP main line */
+  .term h2{
+    /* ✅ slightly bigger on phones */
+    font-size:clamp(30px, 8.2vw, 56px);
+    line-height:1.18;
+  }
+
+  /* Hiragana / kana line */
+  .term p{
+    margin-top:.55rem;
+
+    /* ✅ clearly smaller than JP */
+    font-size:clamp(15px, 4.2vw, 22px);
+
+    /* keep readable but secondary */
+    font-weight:700;
+    opacity:.92;
+  }
+
+  /* 🔥 EXTRA BOOST: JP only (back face) */
+  #backFace .term h2{
+    font-weight:900;           /* stronger than English */
+    letter-spacing:.04em;
+  }
+}
 </style>
 </head>
 <body>
