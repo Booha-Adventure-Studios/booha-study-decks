@@ -47,16 +47,47 @@ header h3{font-size:clamp(16px,2.8vw,26px);font-weight:700;color:#dbeafe;}
 @keyframes stripeDown{0%{background-position:0 0;}100%{background-position:0 240px;}}
 
 .face{
-  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
-  border-radius:var(--radius);transition:opacity .5s ease,transform .6s ease;
+  position:absolute;
+  inset:0;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  text-align:center;
+  border-radius:var(--radius);
+
+  /* 🔑 THIS fixes long sentences */
+  padding:clamp(16px, 4vw, 32px);
+
+  transition:opacity .5s ease, transform .6s ease;
 }
+
 .face.hidden{opacity:0;transform:scale(0.98);}
 .face.visible{opacity:1;transform:scale(1);}
 
 .term h2{
-  margin:0;font-size:clamp(52px,10vw,120px);font-weight:900;line-height:1.1;color:#000;
-  text-shadow:0 0 6px rgba(255,255,255,.9),0 0 18px rgba(255,255,255,.6);
+  margin:0;
+  font-weight:900;
+  color:#000;
+
+  /* 🔑 sentence-safe sizing */
+  font-size:clamp(22px, 6vw, 60px);
+  line-height:1.2;
+
+  /* wrapping + containment */
+  max-width:92%;
+  word-break:break-word;
+  overflow-wrap:anywhere;
+  text-wrap:balance;
+
+  /* keep your glow */
+  text-shadow:
+    0 0 6px rgba(255,255,255,.9),
+    0 0 18px rgba(255,255,255,.6);
 }
+
 .term p{
   margin-top:.7rem;font-size:clamp(30px,5.5vw,48px);font-weight:800;color:#000;
   text-shadow:0 0 4px rgba(255,255,255,.8),0 0 12px rgba(255,255,255,.5);
