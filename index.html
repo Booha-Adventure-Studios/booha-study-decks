@@ -16,7 +16,9 @@
   --gold:#ffd166;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
+
+/* allow page to grow */
+html,body{min-height:100%}
 
 body{
   background:
@@ -25,14 +27,22 @@ body{
     var(--bg);
   color:var(--ink);
   font-family:'Cinzel',serif;
+
+  /* ✅ scrolling-safe layout */
+  min-height:100svh;
   display:flex;
-  align-items:center;
+  align-items:flex-start;          /* was center */
   justify-content:center;
-  padding:24px;
+  overflow:auto;                   /* ✅ allow scroll */
+  -webkit-overflow-scrolling:touch;
+
+  padding:24px 24px calc(24px + env(safe-area-inset-bottom));
 }
 
+/* a little top spacing on tall screens */
 .panel{
   width:min(900px,96vw);
+  margin: calc(12px + env(safe-area-inset-top)) 0;
   background:rgba(0,0,0,.35);
   border:1px solid var(--outline);
   border-radius:28px;
@@ -75,6 +85,7 @@ a.month{
   background:linear-gradient(145deg,#ffd166,#fff1b3);
   box-shadow:0 10px 30px rgba(255,209,102,.35);
   transition:transform .18s ease, box-shadow .25s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
 a.month:hover{
