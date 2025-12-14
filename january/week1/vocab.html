@@ -129,38 +129,37 @@ button.btn{
 }
 .btn:active,#speakBtn:active{transform:scale(.98)}
 footer{margin:10px 0 24px;text-align:center;color:#d1d5db;font-family:'Cinzel',serif;font-size:clamp(14px,2vw,18px);letter-spacing:1px;opacity:.9;padding:0 12px;}
-@media (max-width: 420px){
+@media (max-width:420px){
 
   /* Give the face a bit less padding so text can grow */
   .face{
-    padding:18px 14px;
+    padding:16px 12px;
   }
 
-  /* English / JP main line */
+  /* EN / JP main word */
   .term h2{
-    /* ✅ slightly bigger on phones */
-    font-size:clamp(30px, 8.2vw, 56px);
-    line-height:1.18;
+    /* 🔥 bigger for single-word vocab */
+    font-size:clamp(36px, 9.8vw, 68px);
+    line-height:1.05;
   }
 
-  /* Hiragana / kana line */
+  /* Hiragana / kana helper */
   .term p{
-    margin-top:.55rem;
+    margin-top:.6rem;
 
-    /* ✅ clearly smaller than JP */
-    font-size:clamp(15px, 4.2vw, 22px);
-
-    /* keep readable but secondary */
-    font-weight:700;
-    opacity:.92;
+    /* clearly secondary */
+    font-size:clamp(16px, 4.4vw, 24px);
+    font-weight:800;
+    opacity:.9;
   }
 
-  /* 🔥 EXTRA BOOST: JP only (back face) */
+  /* JP dominance (back face) */
   #backFace .term h2{
-    font-weight:900;           /* stronger than English */
-    letter-spacing:.04em;
+    font-weight:900;
+    letter-spacing:.05em;
   }
 }
+
   
 </style>
 </head>
