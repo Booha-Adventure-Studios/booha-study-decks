@@ -29,7 +29,6 @@
 
   /* halo + plate */
   --haloInset:-38px;   /* halo size */
-  --haloBlur:22px;     /* halo blur */
   --plateInset:-18px;  /* black plate size */
 }
 
@@ -92,7 +91,7 @@ a.deck{
   user-select:none;
   touch-action:manipulation;
 
-  /* IMPORTANT: no glowing shadow on the rounded box itself */
+  /* IMPORTANT: no glowing shadow/filter on the rounded box itself */
   box-shadow:none;
   filter:none;
 
@@ -113,20 +112,18 @@ a.deck::before{
   transform:translateZ(0);
 }
 
-/* ✅ TRUE HALO LAYER (CIRCLE/OVAL) */
+/* ✅ TRUE HALO LAYER (NO blur/filter — SAFARI-SAFE) */
 a.deck::after{
   content:"";
   position:absolute;
   inset:var(--haloInset);
-  border-radius:50%;              /* circle => no square corners possible */
+  border-radius:50%;
   z-index:-1;
   pointer-events:none;
   opacity:0;
-  filter:blur(var(--haloBlur));
   transform:scale(.98) translateZ(0);
   transition:opacity .18s ease, transform .18s ease;
-  background:
-    radial-gradient(circle at 45% 40%, rgba(255,255,255,.0), rgba(255,255,255,.0) 45%, transparent 72%);
+  background:radial-gradient(circle at 50% 50%, rgba(255,255,255,0), rgba(255,255,255,0) 55%, rgba(255,255,255,0) 70%);
 }
 
 /* The clipped tile surface (this is the rounded part) */
@@ -134,10 +131,10 @@ a.deck .clip{
   position:absolute;
   inset:0;
   border-radius:inherit;
-  overflow:hidden;                 /* clips shimmer + inner effects */
+  overflow:hidden;                 /* clips inside effects */
   z-index:2;
 
-  /* nice depth that won't create square glow artifacts */
+  /* depth that does NOT create the square glow bug */
   box-shadow:
     0 18px 36px rgba(0,0,0,.65),
     0 0 0 2px rgba(255,255,255,.10) inset;
@@ -216,7 +213,6 @@ footer{
 
 /* =========================
    Click FX: Dance + Flash
-   (no filter on the outer box)
    ========================= */
 a.deck.tap{transform:scale(.96);}
 
@@ -225,7 +221,7 @@ a.deck.playing{
   animation: wiggle .18s ease-in-out infinite;
 }
 
-/* strobe/brightness happens INSIDE the clipped tile only */
+/* strobe happens INSIDE the clipped tile only */
 a.deck.playing .inner{
   animation:
     stripes 10s linear infinite,
@@ -244,34 +240,27 @@ a.deck.playing .inner{
   100%{transform:scale(1.08) rotate(-2.0deg) translateY(0);}
 }
 
-/* ✅ Halo colors (live on ::after only) */
+/* ✅ Halo colors (no blur/filter, just gradients) */
 a.deck.playing.fx-pink::after{
   opacity:1;
-  transform:scale(1.02) translateZ(0);
+  transform:scale(1.03) translateZ(0);
   background:
-    radial-gradient(circle at 45% 40%, rgba(255,126,185,.95), rgba(255,126,185,.35) 45%, transparent 72%),
-    radial-gradient(circle at 70% 75%, rgba(255,126,185,.62), transparent 74%);
+    radial-gradient(circle at 50% 50%, rgba(255,126,185,.70) 0%, rgba(255,126,185,.30) 44%, rgba(255,126,185,0) 72%),
+    radial-gradient(circle at 70% 75%, rgba(255,126,185,.40) 0%, rgba(255,126,185,0) 68%);
 }
 a.deck.playing.fx-blue::after{
   opacity:1;
-  transform:scale(1.02) translateZ(0);
+  transform:scale(1.03) translateZ(0);
   background:
-    radial-gradient(circle at 45% 40%, rgba(94,230,255,.95), rgba(94,230,255,.32) 45%, transparent 72%),
-    radial-gradient(circle at 70% 75%, rgba(94,230,255,.60), transparent 74%);
+    radial-gradient(circle at 50% 50%, rgba(94,230,255,.70) 0%, rgba(94,230,255,.28) 44%, rgba(94,230,255,0) 72%),
+    radial-gradient(circle at 70% 75%, rgba(94,230,255,.38) 0%, rgba(94,230,255,0) 68%);
 }
 a.deck.playing.fx-yellow::after{
   opacity:1;
-  transform:scale(1.02) translateZ(0);
+  transform:scale(1.03) translateZ(0);
   background:
-    radial-gradient(circle at 45% 40%, rgba(255,246,128,.98), rgba(255,246,128,.36) 45%, transparent 72%),
-    radial-gradient(circle at 70% 75%, rgba(255,246,128,.64), transparent 74%);
-}
-
-a.deck.playing .clip::after{opacity:.9;}
-
-@keyframes shimmerParty{
-  0%{transform:translateY(14px) rotate(0deg) scale(1);}
-  100%{transform:translateY(-14px) rotate(18deg) scale(1.03);}
+    radial-gradient(circle at 50% 50%, rgba(255,246,128,.78) 0%, rgba(255,246,128,.32) 44%, rgba(255,246,128,0) 72%),
+    radial-gradient(circle at 70% 75%, rgba(255,246,128,.40) 0%, rgba(255,246,128,0) 68%);
 }
 
 /* ✅ Sparkle burst container */
@@ -301,7 +290,6 @@ a.deck.playing .clip::after{opacity:.9;}
 /* accessibility */
 @media (prefers-reduced-motion:reduce){
   a.deck.playing{animation:none;}
-  a.deck .clip::after{animation:none;}
   a.deck.playing .inner{animation:stripes 10s linear infinite;}
   .sparkle{animation:none;opacity:0;}
 }
@@ -314,7 +302,6 @@ a.deck.playing .clip::after{opacity:.9;}
     --tileEn:clamp(13px, 4.0vw, 16px);
     --tileJp:clamp(11px, 3.4vw, 13px);
     --haloInset:-34px;
-    --haloBlur:20px;
     --plateInset:-16px;
   }
 }
