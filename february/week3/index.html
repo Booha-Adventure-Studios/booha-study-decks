@@ -1,1 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Booha Study Decks – February Week 3</title>
+<meta name="theme-color" content="#000000">
+<link rel="icon" type="image/png" href="BoohaYellow.png">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --pink:#ff7eb9;
+  --blue:#5ee6ff;
+  --yellow:#fff680;
+  --purple:#c77dff;
 
+  --ink:#fff;
+  --outline:#000;
+  --outlineW:12px;
+
+  --tileR:30px;
+  --tileSize:160px;
+
+  /* text (safe) */
+  --tilePad:14px;
+  --tileEn:clamp(14px, 1.55vw, 17px);
+  --tileJp:clamp(12px, 1.25vw, 14px);
+  --tileLine:1.08;
+
+  /* halo + plate */
+  --haloInset:-38px;
+  --plateInset:-18px;
+}
+
+/* Reset */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{
+  height:100%;
+  font-family:'Cinzel',serif;
+  background:#000;
+  color:var(--ink);
+  overflow:auto;
+  -webkit-overflow-scrolling:touch;
+}
+
+/* Layout */
+#welcome{
+  min-height:100svh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:28px 18px 18px;
+  gap:18px;
+  animation:fadeIn 1.2s ease-in;
+}
+
+/* Headings */
+h1{font-size:clamp(32px,5vw,60px);letter-spacing:1px;font-weight:900;}
+h2{font-size:clamp(22px,3vw,36px);font-weight:800;color:#ccc;}
+h3{font-size:clamp(18px,2.5vw,28px);color:#aaa;margin-top:6px;}
+
+/* Tiles container */
+.deck-links{
+  display:flex;
+  gap:1.2rem;
+  flex-wrap:wrap;
+  justify-content:center;
+  padding:10px 0 6px;
+  position:relative;           /* ✅ allows z-index layering */
+}
+
+/* =========================
+   TILE WRAPPER
+   ========================= */
+a.deck{
+  width:var(--tileSize);
+  height:var(--tileSize);
+  border-radius:var(--tileR);
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  text-decoration:none;
+  color:#111;
+  font-weight:900;
+
+  overflow:visible;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+  touch-action:manipulation;
+
+  box-shadow:none;
+  filter:none;
+
+  transition:transform .18s ease;
+  transform:translateZ(0);
+  z-index:1;                   /* default layer */
+}
+
+/* ✅ when clicked: comes to front */
+a.deck.playing{
+  z-index:999;                 /* ✅ bring to front */
+}
+
+/* ✅ BIG BLACK SOFT PLATE */
+a.deck::before{
+  content:"";
+  position:absolute;
+  inset:var(--plateInset);
+  border-radius:999px;
+  background:#000;
+  z-index:-2;
+  pointer-events:none;
+  box-shadow:0 22px 52px rgba(0,0,0,.82);
+  transform:translateZ(0);
+}
+
+/* ✅ TRUE HALO (Safari-safe) */
+a.deck::after{
+  content:"";
+  position:absolute;
+  inset:var(--haloInset);
+  border-radius:50%;
+  z-index:-1;
+  pointer-events:none;
+  opacity:0;
+  transform:scale(.98) translateZ(0);
+  transition:opacity .18s ease, transform .18s ease;
+  background:radial-gradient(circle at 50% 50%, rgba(255,255,255,0), rgba(255,255,255,0) 55%, rgba(255,255,255,0) 70%);
+}
+
+/* The clipped tile surface */
+a.deck .clip{
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  overflow:hidden;
+  z-index:2;
+  box-shadow:
+    0 18px 36px rgba(0,0,0,.65),
+    0 0 0 2px rgba(255,255,255,.10) inset;
+}
+
+/* Background + content */
+a.deck .inner{
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  padding:var(--tilePad);
+  gap:8px;
+
+  background-size:300% 300%;
+  animation:stripes 10s linear infinite;
+
+  text-align:center;
+  line-height:var(--tileLine);
+}
+
+/* Base gradients */
+a.deck:nth-child(1) .inner{background:linear-gradient(145deg,var(--pink),#ffc0cb,var(--purple));}
+a.deck:nth-child(2) .inner{background:linear-gradient(145deg,var(--blue),#c0ffff,var(--purple));}
+a.deck:nth-child(3) .inner{background:linear-gradient(145deg,var(--yellow),#fff7b2,var(--pink));}
+
+/* Text */
+a.deck .label{
+  display:block;
+  width:100%;
+  font-size:var(--tileEn);
+  letter-spacing:.4px;
+  overflow-wrap:anywhere;
+  text-wrap:balance;
+}
+a.deck .jp{
+  display:block;
+  width:100%;
+  font-size:var(--tileJp);
+  font-weight:900;
+  opacity:.95;
+}
+
+/* Outline */
+a.deck .outline{
+  position:absolute;
+  inset:-1px;
+  border:var(--outlineW) solid var(--outline);
+  border-radius:inherit;
+  z-index:10;
+  pointer-events:none;
+}
+
+/* Hover */
+a.deck:hover{transform:scale(1.05);}
+
+/* Animations */
+@keyframes stripes{0%{background-position:0 0;}100%{background-position:300% 300%;}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+
+/* Footer */
+footer{
+  margin-top:10px;
+  padding:8px 0 18px;
+  width:100%;
+  text-align:center;
+  font-size:clamp(14px,2vw,18px);
+  color:#888;
+  letter-spacing:1px;
+  opacity:.9;
+}
+
+/* =========================
+   Click FX
+   ========================= */
+a.deck.tap{transform:scale(.96);}
+
+a.deck.playing{
+  transform:scale(1.08) rotate(-1.4deg);
+  animation: wiggle .18s ease-in-out infinite;
+}
+
+/* strobe happens INSIDE the tile */
+a.deck.playing .inner{
+  animation:
+    stripes 10s linear infinite,
+    strobeInner .26s linear infinite;
+}
+
+@keyframes strobeInner{
+  0%{filter:brightness(1.10) saturate(1.15);}
+  50%{filter:brightness(1.30) saturate(1.35);}
+  100%{filter:brightness(1.10) saturate(1.15);}
+}
+
+@keyframes wiggle{
+  0%{transform:scale(1.08) rotate(-2.0deg) translateY(0);}
+  50%{transform:scale(1.08) rotate( 2.0deg) translateY(-3px);}
+  100%{transform:scale(1.08) rotate(-2.0deg) translateY(0);}
+}
+
+/* Halo colors */
+a.deck.playing.fx-pink::after{
+  opacity:1;
+  transform:scale(1.03) translateZ(0);
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255,126,185,.70) 0%, rgba(255,126,185,.30) 44%, rgba(255,126,185,0) 72%),
+    radial-gradient(circle at 70% 75%, rgba(255,126,185,.40) 0%, rgba(255,126,185,0) 68%);
+}
+a.deck.playing.fx-blue::after{
+  opacity:1;
+  transform:scale(1.03) translateZ(0);
+  background:
+    radial-gradient(circle at 50% 50%, rgba(94,230,255,.70) 0%, rgba(94,230,255,.28) 44%, rgba(94,230,255,0) 72%),
+    radial-gradient(circle at 70% 75%, rgba(94,230,255,.38) 0%, rgba(94,230,255,0) 68%);
+}
+a.deck.playing.fx-yellow::after{
+  opacity:1;
+  transform:scale(1.03) translateZ(0);
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255,246,128,.78) 0%, rgba(255,246,128,.32) 44%, rgba(255,246,128,0) 72%),
+    radial-gradient(circle at 70% 75%, rgba(255,246,128,.40) 0%, rgba(255,246,128,0) 68%);
+}
+
+/* Sparkles */
+.sparkles{
+  position:absolute;
+  inset:0;
+  z-index:9;
+  pointer-events:none;
+}
+.sparkle{
+  position:absolute;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(255,255,255,.95), rgba(255,255,255,0) 70%);
+  filter:blur(.2px);
+  opacity:0;
+  transform:translate(-50%,-50%) scale(.6);
+  animation:sparkPop .55s ease-out forwards;
+}
+@keyframes sparkPop{
+  0%{opacity:0; transform:translate(-50%,-50%) scale(.55);}
+  10%{opacity:1; transform:translate(-50%,-50%) scale(1.05);}
+  100%{opacity:0; transform:translate(-50%,-50%) scale(1.65);}
+}
+
+/* accessibility */
+@media (prefers-reduced-motion:reduce){
+  a.deck.playing{animation:none;}
+  a.deck.playing .inner{animation:stripes 10s linear infinite;}
+  .sparkle{animation:none;opacity:0;}
+}
+
+/* small devices */
+@media (max-width:420px){
+  :root{
+    --tileSize:150px;
+    --tilePad:13px;
+    --tileEn:clamp(13px, 4.0vw, 16px);
+    --tileJp:clamp(11px, 3.4vw, 13px);
+    --haloInset:-34px;
+    --plateInset:-16px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- 🔐 BOOHA TOKEN GATE (PASTE INTO EVERY WEEKLY INDEX) -->
+
+<!-- 🔐 END BOOHA TOKEN GATE -->
+
+
+  
+<audio id="clickBgm" preload="auto">
+  <source src="studydeck.mp3" type="audio/mpeg">
+</audio>
+
+<section id="welcome">
+  <h1>Booha Study Decks</h1>
+  <h2>ブーハー・スタディデッキ</h2>
+  <h3>February Week 3 Card Decks<br>2月第3週カードデッキ</h3>
+
+  <div class="deck-links">
+
+    <a class="deck" data-fx="fx-pink" href="vocab.html">
+      <div class="clip">
+        <div class="inner">
+          <span class="label">Vocabulary</span>
+          <span class="jp">語彙</span>
+        </div>
+        <div class="sparkles" aria-hidden="true"></div>
+      </div>
+      <div class="outline" aria-hidden="true"></div>
+    </a>
+
+    <a class="deck" data-fx="fx-blue" href="sentences.html">
+      <div class="clip">
+        <div class="inner">
+          <span class="label">Sentences</span>
+          <span class="jp">文</span>
+        </div>
+        <div class="sparkles" aria-hidden="true"></div>
+      </div>
+      <div class="outline" aria-hidden="true"></div>
+    </a>
+
+    <a class="deck" data-fx="fx-yellow" href="questions.html">
+      <div class="clip">
+        <div class="inner">
+          <span class="label">Questions</span>
+          <span class="jp">質問</span>
+        </div>
+        <div class="sparkles" aria-hidden="true"></div>
+      </div>
+      <div class="outline" aria-hidden="true"></div>
+    </a>
+
+  </div>
+
+  <footer>Bryan's English School</footer>
+</section>
+
+<script>
+const clickBgm = document.getElementById('clickBgm');
+let lockedUI = false;
+
+function stopClickBgm(){
+  try{ clickBgm.pause(); }catch{}
+  try{ clickBgm.currentTime = 0; }catch{}
+}
+
+/* Sparkle burst */
+function burstSparkles(anchor){
+  const box = anchor.querySelector('.sparkles');
+  if(!box) return;
+
+  while(box.firstChild) box.removeChild(box.firstChild);
+
+  const n = 12;
+  for(let i=0;i<n;i++){
+    const s = document.createElement('div');
+    s.className = 'sparkle';
+
+    const x = 18 + Math.random()*64;
+    const y = 18 + Math.random()*64;
+
+    s.style.left = x + '%';
+    s.style.top  = y + '%';
+
+    const size = 8 + Math.random()*10;
+    s.style.width = size + 'px';
+    s.style.height = size + 'px';
+
+    s.style.animationDelay = (Math.random()*0.10) + 's';
+    box.appendChild(s);
+  }
+
+  setTimeout(()=>{
+    while(box.firstChild) box.removeChild(box.firstChild);
+  }, 900);
+}
+
+async function playThenGo(anchor){
+  if(lockedUI) return;
+  lockedUI = true;
+
+  const url = anchor.getAttribute('href');
+
+  anchor.classList.add('tap');
+  setTimeout(()=>anchor.classList.remove('tap'), 180);
+
+  // ✅ disable all other clicks immediately
+  document.querySelectorAll('a.deck').forEach(el=>{
+    if(el !== anchor) el.style.pointerEvents = 'none';
+  });
+
+  document.querySelectorAll('a.deck.playing').forEach(el=>{
+    el.classList.remove('playing','fx-pink','fx-blue','fx-yellow');
+  });
+
+  stopClickBgm();
+
+  const fx = anchor.dataset.fx || '';
+  anchor.classList.add('playing');
+  if(fx) anchor.classList.add(fx);
+
+  burstSparkles(anchor);
+
+  let navigated=false;
+  const go=()=>{
+    if(navigated) return;
+    navigated=true;
+    window.location.href=url;
+  };
+
+  clickBgm.onended = go;
+
+  const hardFallback = setTimeout(go, 900);
+
+  try{
+    clickBgm.volume = 0.95;
+    clickBgm.currentTime = 0;
+    await clickBgm.play();
+    clearTimeout(hardFallback);
+    setTimeout(go, 5200);
+  }catch(e){
+    go();
+  }
+}
+
+document.querySelectorAll('a.deck').forEach(a=>{
+  a.addEventListener('click',(e)=>{
+    e.preventDefault();
+    playThenGo(a);
+  }, {passive:false});
+});
+</script>
+
+</body>
+</html>
