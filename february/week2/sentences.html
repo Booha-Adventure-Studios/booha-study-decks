@@ -1,1 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Booha Study Decks – February Week 2 – Sentences</title>
+<meta name="theme-color" content="#7c3aed">
+<link rel="icon" type="image/png" href="BoohaYellow.png">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+:root{--radius:28px;--bg:url('https://static.wixstatic.com/media/fa59b9_f8915cfdff974d7883c730f51f577d31~mv2.jpg');}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{
+  min-height:100%;
+  font-family:system-ui,Segoe UI,Roboto,Inter,sans-serif;
+  background:linear-gradient(160deg,rgba(124,58,237,.1),rgba(34,211,238,.1)),#0f172a;
+  color:#111;
+  overflow:auto;
+  -webkit-overflow-scrolling:touch;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;
+  background-image:var(--bg);background-size:cover;background-position:center;opacity:.25;
+}
+.back-btn{
+  position:fixed;top:14px;left:14px;z-index:1000;
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.55rem .9rem;border-radius:999px;background:#0b1020;color:#fff;
+  border:1px solid rgba(255,255,255,.25);box-shadow:0 10px 25px rgba(0,0,0,.35);
+  font-weight:800;font-size:.92rem;text-decoration:none;-webkit-tap-highlight-color:transparent;
+}
+header{
+  text-align:center;color:#fff;
+  margin:86px 0 18px;padding:0 12px;
+}
+header h1{
+  font-family:'Cinzel',serif;
+  font-size:clamp(26px,4.5vw,50px);
+  letter-spacing:1px;margin-bottom:8px;font-weight:900;
+}
+header h2{
+  font-family:'Cinzel',serif;
+  font-size:clamp(18px,3.2vw,30px);
+  margin-bottom:6px;font-weight:800;
+}
+header h3{
+  font-family:'Noto Sans JP',system-ui,-apple-system,sans-serif;
+  font-size:clamp(16px,2.8vw,26px);
+  font-weight:700;color:#dbeafe;
+}
 
+.card-outer{width:min(92vw,900px);aspect-ratio:3/2;display:flex;align-items:center;justify-content:center;perspective:1000px;margin:0 auto;}
+.card{
+  width:100%;height:100%;border-radius:var(--radius);
+  border:3px solid rgba(255,255,255,.25);
+  box-shadow:0 30px 80px rgba(0,0,0,.3);
+  overflow:hidden;
+  background-size:100% 240px;
+  animation:stripeDown 6s linear infinite;
+  position:relative;
+}
+@keyframes stripeDown{0%{background-position:0 0;}100%{background-position:0 240px;}}
+
+.face{
+  position:absolute;
+  inset:0;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  text-align:center;
+  border-radius:var(--radius);
+
+  /* still prevents clipping */
+  padding:clamp(14px, 3.4vw, 28px);
+
+  transition:opacity .5s ease, transform .6s ease;
+}
+
+.face.hidden{opacity:0;transform:scale(0.98);}
+.face.visible{opacity:1;transform:scale(1);}
+
+/* EN (front) + JP (back) main line */
+.term h2{
+  margin:0;
+  font-weight:900;
+  color:#000;
+
+  /* ✅ bigger again, but still safe for long lines */
+  font-size:clamp(26px, 6.4vw, 72px);
+  line-height:1.16;
+
+  max-width:92%;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+  text-wrap:balance;
+
+  text-shadow:
+    0 0 6px rgba(255,255,255,.9),
+    0 0 18px rgba(255,255,255,.6);
+}
+
+/* HIRAGANA/KANA line (the <p id="backSub">) */
+.term p{
+  margin-top:.65rem;
+
+  /* ✅ smaller than JP, always */
+  font-size:clamp(16px, 3.6vw, 30px);
+  line-height:1.15;
+
+  /* ✅ make JP feel stronger by comparison */
+  font-weight:800;
+  letter-spacing:.02em;
+
+  color:#000;
+  text-shadow:
+    0 0 4px rgba(255,255,255,.85),
+    0 0 12px rgba(255,255,255,.5);
+
+  max-width:92%;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+
+.sparkle{
+  position:absolute;width:6px;height:6px;
+  background:radial-gradient(circle at center,#fff8b0 0%,#ffd700 40%,transparent 70%);
+  border-radius:50%;opacity:.95;pointer-events:none;z-index:2;
+  animation:sparkleFloat 2.2s ease-out forwards;filter:blur(.5px);
+}
+@keyframes sparkleFloat{0%{transform:translateY(0) scale(1);opacity:1;}60%{opacity:.9;}100%{transform:translateY(-200px) scale(.5);opacity:0;}}
+
+.actions{display:flex;gap:18px;justify-content:center;margin:22px 0 12px;flex-wrap:wrap;padding:0 12px;}
+button.btn{
+  width:60px;height:60px;border-radius:16px;border:none;background:linear-gradient(180deg,#fff,#e0e0e0);
+  box-shadow:0 10px 25px rgba(0,0,0,.15);font-weight:900;cursor:pointer;font-size:1.6rem;-webkit-tap-highlight-color:transparent;
+}
+#speakBtn{
+  background:linear-gradient(180deg,#ff4444,#cc0000);color:#fff;
+  box-shadow:0 0 20px rgba(255,0,0,.35), 0 10px 25px rgba(0,0,0,.18);
+}
+.btn:active,#speakBtn:active{transform:scale(.98)}
+footer{margin:10px 0 24px;text-align:center;color:#d1d5db;font-family:'Cinzel',serif;font-size:clamp(14px,2vw,18px);letter-spacing:1px;opacity:.9;padding:0 12px;}
+@media (max-width: 420px){
+
+  /* Give the face a bit less padding so text can grow */
+  .face{
+    padding:18px 14px;
+  }
+
+  /* English / JP main line */
+  .term h2{
+    /* ✅ slightly bigger on phones */
+    font-size:clamp(30px, 8.2vw, 56px);
+    line-height:1.18;
+  }
+
+  /* Hiragana / kana line */
+  .term p{
+    margin-top:.55rem;
+
+    /* ✅ clearly smaller than JP */
+    font-size:clamp(15px, 4.2vw, 22px);
+
+    /* keep readable but secondary */
+    font-weight:700;
+    opacity:.92;
+  }
+
+  /* 🔥 EXTRA BOOST: JP only (back face) */
+  #backFace .term h2{
+    font-weight:900;           /* stronger than English */
+    letter-spacing:.04em;
+  }
+}
+  
+</style>
+</head>
+<body>
+
+<a href="index.html" class="back-btn">❮ Back to Menu ／ メニューにもどる</a>
+
+<header>
+  <h1>Booha Study Decks</h1>
+  <h2>February Week 2 – Sentences</h2>
+  <h3>2月第2週（Sentences）</h3>
+</header>
+
+
+<div class="card-outer">
+  <div class="card" id="card">
+    <div id="sparkleContainer"></div>
+    <div class="face visible" id="frontFace"><div class="term"><h2 id="frontTitle"></h2></div></div>
+    <div class="face hidden" id="backFace"><div class="term"><h2 id="backTitle"></h2><p id="backSub"></p></div></div>
+  </div>
+</div>
+
+<div class="actions">
+  <button class="btn" id="prevBtn" aria-label="Previous">❮</button>
+  <button class="btn" id="flipBtn" aria-label="Flip">⤾</button>
+  <button class="btn" id="nextBtn" aria-label="Next">❯</button>
+  <button class="btn" id="speakBtn" aria-label="Play audio">▶</button>
+</div>
+
+<footer>Bryan's English School</footer>
+
+<script>
+const PALETTES=[
+  ["#ff007f","#00c3ff","#ffe600","#39ff14","#8b00ff","#ff4d4d"],
+  ["#ff4b1f","#1fddff","#f9ed69","#00ff9c","#d16ba5","#8ef6e4"],
+  ["#ff6ec7","#5ee6ff","#fff680","#a6f7b2","#c77dff","#7dd3fc"],
+  ["#ff9f00","#ff00a6","#00ffe1","#ffee00","#00d9ff","#ff6b6b"],
+  ["#ff5f6d","#ffc371","#00c9ff","#92fe9d","#a890fe","#fbc8d4"]
+];
+
+const AUDIO_BASE = "audio/sentences/";
+
+
+/* ✅ 15 items, each with its exact mp3 filename */
+const CARDS = [
+  {
+    en:"My class is friendlier this year.",
+    jp:"今年はクラスがもっと仲良しです。",
+    hira:"ことしは くらすが もっと なかよしです。",
+    mp3:"s01_my_class_is_friendlier_this_year.mp3"
+  },
+  {
+    en:"I am kinder to new students.",
+    jp:"新しい生徒にもっと親切です。",
+    hira:"あたらしい せいとに もっと しんせつです。",
+    mp3:"s02_i_am_kinder_to_new_students.mp3"
+  },
+  {
+    en:"Sharing is better than fighting.",
+    jp:"けんかより分け合うほうがいいです。",
+    hira:"けんかより わけあう ほうが いいです。",
+    mp3:"s03_sharing_is_better_than_fighting.mp3"
+  },
+  {
+    en:"Listening is more important than speaking sometimes.",
+    jp:"ときどき話すより聞くほうが大切です。",
+    hira:"ときどき はなすより きく ほうが たいせつです。",
+    mp3:"s04_listening_is_more_important_than_speaking_sometimes.mp3"
+  },
+  {
+    en:"Today I am more patient than yesterday.",
+    jp:"今日は昨日より我慢強いです。",
+    hira:"きょうは きのうより がまんづよいです。",
+    mp3:"s05_today_i_am_more_patient_than_yesterday.mp3"
+  },
+  {
+    en:"This team is stronger because we help each other.",
+    jp:"助け合うのでこのチームは強いです。",
+    hira:"たすけあうので この ちーむは つよいです。",
+    mp3:"s06_this_team_is_stronger_because_we_help_each_other.mp3"
+  },
+  {
+    en:"Being honest is the best choice.",
+    jp:"正直でいることが一番いい選択です。",
+    hira:"しょうじきで いる ことが いちばん いい せんたくです。",
+    mp3:"s07_being_honest_is_the_best_choice.mp3"
+  },
+  {
+    en:"My friend is braver than me.",
+    jp:"友だちは私より勇敢です。",
+    hira:"ともだちは わたしより ゆうかんです。",
+    mp3:"s08_my_friend_is_braver_than_me.mp3"
+  },
+  {
+    en:"I feel happier when I help.",
+    jp:"助けるともっと幸せな気持ちになります。",
+    hira:"たすけると もっと しあわせな きもちに なります。",
+    mp3:"s09_i_feel_happier_when_i_help.mp3"
+  },
+  {
+    en:"It’s easier to study with friends.",
+    jp:"友だちと勉強すると楽です。",
+    hira:"ともだちと べんきょうすると らくです。",
+    mp3:"s10_its_easier_to_study_with_friends.mp3"
+  },
+  {
+    en:"I try to be more polite.",
+    jp:"もっと礼儀正しくしようとしています。",
+    hira:"もっと れいぎただしく しようと しています。",
+    mp3:"s11_i_try_to_be_more_polite.mp3"
+  },
+  {
+    en:"I include everyone in games.",
+    jp:"ゲームではみんなを入れます。",
+    hira:"げーむでは みんなを いれます。",
+    mp3:"s12_i_include_everyone_in_games.mp3"
+  },
+  {
+    en:"We respect different ideas.",
+    jp:"私たちは違う考えを尊重します。",
+    hira:"わたしたちは ちがう かんがえを そんちょうします。",
+    mp3:"s13_we_respect_different_ideas.mp3"
+  },
+  {
+    en:"Trust makes friendship stronger.",
+    jp:"信頼は友情を強くします。",
+    hira:"しんらいは ゆうじょうを つよく します。",
+    mp3:"s14_trust_makes_friendship_stronger.mp3"
+  },
+  {
+    en:"The kindest words are “Thank you.”",
+    jp:"一番やさしい言葉は「ありがとう」です。",
+    hira:"いちばん やさしい ことばは「ありがとう」です。",
+    mp3:"s15_the_kindest_words_are_thank_you.mp3"
+  }
+];
+
+
+
+function shuffle(a){
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+}
+shuffle(CARDS);
+
+let i=0,showBack=false;
+
+const card=document.getElementById('card');
+const frontFace=document.getElementById('frontFace');
+const backFace=document.getElementById('backFace');
+const frontTitle=document.getElementById('frontTitle');
+const backTitle=document.getElementById('backTitle');
+const backSub=document.getElementById('backSub');
+const sparkContainer=document.getElementById("sparkleContainer");
+
+function buildStripeBackground(colors){
+  const band=40;let stops=[];
+  colors.forEach((c,idx)=>{const start=idx*band;stops.push(`${c} ${start}px ${start+band}px`);});
+  const all=stops.concat(stops.map(s=>s.replace(/(\d+)px/g,(m,n)=>(+n+band*colors.length)+'px')));
+  return `repeating-linear-gradient(180deg,${all.join(',')})`;
+}
+
+function triggerSparkles(){
+  for(let n=0;n<28;n++){
+    const s=document.createElement("div");
+    s.className="sparkle";
+    s.style.left=Math.random()*100+"%";
+    s.style.bottom=(10+Math.random()*70)+"%";
+    s.style.transform=`scale(${0.6+Math.random()*1.4})`;
+    s.style.animationDelay=(Math.random()*0.25)+"s";
+    sparkContainer.appendChild(s);
+    setTimeout(()=>s.remove(),2200);
+  }
+}
+
+/* ✅ single reusable audio element (more reliable on Safari) */
+let sageAudio = new Audio();
+sageAudio.preload = "auto";
+
+async function speak(){
+  const c = CARDS[i];
+  if(!c || !c.mp3) return;
+
+  const src = AUDIO_BASE + c.mp3;
+
+  try{ sageAudio.pause(); }catch{}
+  try{ sageAudio.currentTime = 0; }catch{}
+  sageAudio.src = src;
+
+  try{
+    await sageAudio.play();
+    triggerSparkles();
+  }catch(err){
+    console.log("[Sage blocked/missing]", err, "src=", src);
+    /* If you want a visible error while testing:
+       alert("Sage failed: " + src);
+    */
+  }
+}
+
+function show(){
+  const c=CARDS[i];
+  const palette=PALETTES[i%PALETTES.length];
+  card.style.backgroundImage=buildStripeBackground(palette);
+
+  frontTitle.textContent=c.en;
+  backTitle.textContent=c.jp;
+  backSub.textContent=c.hira;
+
+  if(showBack){
+    frontFace.classList.replace("visible","hidden");
+    backFace.classList.replace("hidden","visible");
+  }else{
+    backFace.classList.replace("visible","hidden");
+    frontFace.classList.replace("hidden","visible");
+  }
+}
+
+document.getElementById('flipBtn').onclick=()=>{showBack=!showBack;show();};
+document.getElementById('nextBtn').onclick=()=>{i=(i+1)%CARDS.length;showBack=false;show();};
+document.getElementById('prevBtn').onclick=()=>{i=(i-1+CARDS.length)%CARDS.length;showBack=false;show();};
+document.getElementById('speakBtn').onclick=()=>{speak();};
+
+show();
+</script>
+</body>
+</html>
