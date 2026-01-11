@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Booha Study Decks – March Week 4 – Questions</title>
+<meta name="theme-color" content="#7c3aed">
+<link rel="icon" type="image/png" href="BoohaYellow.png">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+:root{--radius:28px;--bg:url('https://static.wixstatic.com/media/fa59b9_f8915cfdff974d7883c730f51f577d31~mv2.jpg');}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{
+  min-height:100%;
+  font-family:system-ui,Segoe UI,Roboto,Inter,sans-serif;
+  background:linear-gradient(160deg,rgba(124,58,237,.1),rgba(34,211,238,.1)),#0f172a;
+  color:#111;
+  overflow:auto;
+  -webkit-overflow-scrolling:touch;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;
+  background-image:var(--bg);background-size:cover;background-position:center;opacity:.25;
+}
+.back-btn{
+  position:fixed;top:14px;left:14px;z-index:1000;
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.55rem .9rem;border-radius:999px;background:#0b1020;color:#fff;
+  border:1px solid rgba(255,255,255,.25);box-shadow:0 10px 25px rgba(0,0,0,.35);
+  font-weight:800;font-size:.92rem;text-decoration:none;-webkit-tap-highlight-color:transparent;
+}
+header{
+  text-align:center;color:#fff;
+  margin:86px 0 18px;padding:0 12px;
+}
+header h1{
+  font-family:'Cinzel',serif;
+  font-size:clamp(26px,4.5vw,50px);
+  letter-spacing:1px;margin-bottom:8px;font-weight:900;
+}
+header h2{
+  font-family:'Cinzel',serif;
+  font-size:clamp(18px,3.2vw,30px);
+  margin-bottom:6px;font-weight:800;
+}
+header h3{
+  font-family:'Noto Sans JP',system-ui,-apple-system,sans-serif;
+  font-size:clamp(16px,2.8vw,26px);
+  font-weight:700;color:#dbeafe;
+}
+
+.card-outer{width:min(92vw,900px);aspect-ratio:3/2;display:flex;align-items:center;justify-content:center;perspective:1000px;margin:0 auto;}
+.card{
+  width:100%;height:100%;border-radius:var(--radius);
+  border:3px solid rgba(255,255,255,.25);
+  box-shadow:0 30px 80px rgba(0,0,0,.3);
+  overflow:hidden;
+  background-size:100% 240px;
+  animation:stripeDown 6s linear infinite;
+  position:relative;
+}
+@keyframes stripeDown{0%{background-position:0 0;}100%{background-position:0 240px;}}
+
+.face{
+  position:absolute;
+  inset:0;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  text-align:center;
+  border-radius:var(--radius);
+
+  /* still prevents clipping */
+  padding:clamp(14px, 3.4vw, 28px);
+
+  transition:opacity .5s ease, transform .6s ease;
+}
+
+.face.hidden{opacity:0;transform:scale(0.98);}
+.face.visible{opacity:1;transform:scale(1);}
+
+/* EN (front) + JP (back) main line */
+.term h2{
+  margin:0;
+  font-weight:900;
+  color:#000;
+
+  /* ✅ bigger again, but still safe for long lines */
+  font-size:clamp(26px, 6.4vw, 72px);
+  line-height:1.16;
+
+  max-width:92%;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+  text-wrap:balance;
+
+  text-shadow:
+    0 0 6px rgba(255,255,255,.9),
+    0 0 18px rgba(255,255,255,.6);
+}
+
+/* HIRAGANA/KANA line (the <p id="backSub">) */
+.term p{
+  margin-top:.65rem;
+
+  /* ✅ smaller than JP, always */
+  font-size:clamp(16px, 3.6vw, 30px);
+  line-height:1.15;
+
+  /* ✅ make JP feel stronger by comparison */
+  font-weight:800;
+  letter-spacing:.02em;
+
+  color:#000;
+  text-shadow:
+    0 0 4px rgba(255,255,255,.85),
+    0 0 12px rgba(255,255,255,.5);
+
+  max-width:92%;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+
+
+.term p{
+  margin-top:.7rem;font-size:clamp(30px,5.5vw,48px);font-weight:800;color:#000;
+  text-shadow:0 0 4px rgba(255,255,255,.8),0 0 12px rgba(255,255,255,.5);
+}
+
+.sparkle{
+  position:absolute;width:6px;height:6px;
+  background:radial-gradient(circle at center,#fff8b0 0%,#ffd700 40%,transparent 70%);
+  border-radius:50%;opacity:.95;pointer-events:none;z-index:2;
+  animation:sparkleFloat 2.2s ease-out forwards;filter:blur(.5px);
+}
+@keyframes sparkleFloat{0%{transform:translateY(0) scale(1);opacity:1;}60%{opacity:.9;}100%{transform:translateY(-200px) scale(.5);opacity:0;}}
+
+.actions{display:flex;gap:18px;justify-content:center;margin:22px 0 12px;flex-wrap:wrap;padding:0 12px;}
+button.btn{
+  width:60px;height:60px;border-radius:16px;border:none;background:linear-gradient(180deg,#fff,#e0e0e0);
+  box-shadow:0 10px 25px rgba(0,0,0,.15);font-weight:900;cursor:pointer;font-size:1.6rem;-webkit-tap-highlight-color:transparent;
+}
+#speakBtn{
+  background:linear-gradient(180deg,#ff4444,#cc0000);color:#fff;
+  box-shadow:0 0 20px rgba(255,0,0,.35), 0 10px 25px rgba(0,0,0,.18);
+}
+.btn:active,#speakBtn:active{transform:scale(.98)}
+footer{margin:10px 0 24px;text-align:center;color:#d1d5db;font-family:'Cinzel',serif;font-size:clamp(14px,2vw,18px);letter-spacing:1px;opacity:.9;padding:0 12px;}
+@media (max-width: 420px){
+
+  /* Give the face a bit less padding so text can grow */
+  .face{
+    padding:18px 14px;
+  }
+
+  /* English / JP main line */
+  .term h2{
+    /* ✅ slightly bigger on phones */
+    font-size:clamp(30px, 8.2vw, 56px);
+    line-height:1.18;
+  }
+
+  /* Hiragana / kana line */
+  .term p{
+    margin-top:.55rem;
+
+    /* ✅ clearly smaller than JP */
+    font-size:clamp(15px, 4.2vw, 22px);
+
+    /* keep readable but secondary */
+    font-weight:700;
+    opacity:.92;
+  }
+
+  /* 🔥 EXTRA BOOST: JP only (back face) */
+  #backFace .term h2{
+    font-weight:900;           /* stronger than English */
+    letter-spacing:.04em;
+  }
+}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="back-btn">❮ Back to Menu ／ メニューにもどる</a>
+
+<header>
+  <h1>Booha Study Decks</h1>
+  <h2>March Week 4 – Questions</h2>
+<h3>3月第4週（Questions）</h3>
+</header>
+
+
+<div class="card-outer">
+  <div class="card" id="card">
+    <div id="sparkleContainer"></div>
+    <div class="face visible" id="frontFace"><div class="term"><h2 id="frontTitle"></h2></div></div>
+    <div class="face hidden" id="backFace"><div class="term"><h2 id="backTitle"></h2><p id="backSub"></p></div></div>
+  </div>
+</div>
+
+<div class="actions">
+  <button class="btn" id="prevBtn" aria-label="Previous">❮</button>
+  <button class="btn" id="flipBtn" aria-label="Flip">⤾</button>
+  <button class="btn" id="nextBtn" aria-label="Next">❯</button>
+  <button class="btn" id="speakBtn" aria-label="Play audio">▶</button>
+</div>
+
+<footer>Bryan's English School</footer>
+
+<script>
+const PALETTES=[
+  ["#ff007f","#00c3ff","#ffe600","#39ff14","#8b00ff","#ff4d4d"],
+  ["#ff4b1f","#1fddff","#f9ed69","#00ff9c","#d16ba5","#8ef6e4"],
+  ["#ff6ec7","#5ee6ff","#fff680","#a6f7b2","#c77dff","#7dd3fc"],
+  ["#ff9f00","#ff00a6","#00ffe1","#ffee00","#00d9ff","#ff6b6b"],
+  ["#ff5f6d","#ffc371","#00c9ff","#92fe9d","#a890fe","#fbc8d4"]
+];
+
+const AUDIO_BASE = "audio/questions/";
+
+
+/* ✅ 15 items, each with its exact mp3 filename */
+const CARDS = [
+  {
+    en:"Where do you want to work?",
+    jp:"どこで働きたいですか。",
+    hira:"どこ で はたらきたい です か",
+    mp3:"q01_where_do_you_want_to_work.mp3"
+  },
+  {
+    en:"What do you see in your school?",
+    jp:"学校で何が見えますか。",
+    hira:"がっこう で なに が みえ ます か",
+    mp3:"q02_what_do_you_see_in_your_school.mp3"
+  },
+  {
+    en:"Is there a library in your school?",
+    jp:"学校に図書室はありますか。",
+    hira:"がっこう に としょしつ は あり ます か",
+    mp3:"q03_is_there_a_library_in_your_school.mp3"
+  },
+  {
+    en:"How many computers are in your classroom?",
+    jp:"教室にコンピュータはいくつありますか。",
+    hira:"きょうしつ に こんぴゅーた は いくつ あり ます か",
+    mp3:"q04_how_many_computers_are_in_your_classroom.mp3"
+  },
+  {
+    en:"Is there a kitchen in your house?",
+    jp:"家にキッチンはありますか。",
+    hira:"いえ に きっちん は あり ます か",
+    mp3:"q05_is_there_a_kitchen_in_your_house.mp3"
+  },
+  {
+    en:"What is on your desk?",
+    jp:"机の上には何がありますか。",
+    hira:"つくえ の うえ に は なに が あり ます か",
+    mp3:"q06_what_is_on_your_desk.mp3"
+  },
+  {
+    en:"Are there many people at your job?",
+    jp:"あなたの仕事場には人が多いですか。",
+    hira:"あなた の しごとば に は ひと が おおい です か",
+    mp3:"q07_are_there_many_people_at_your_job.mp3"
+  },
+  {
+    en:"What tools do you use every day?",
+    jp:"毎日どんな道具を使いますか。",
+    hira:"まいにち どんな どうぐ を つかい ます か",
+    mp3:"q08_what_tools_do_you_use_every_day.mp3"
+  },
+  {
+    en:"Is there a train station near your home?",
+    jp:"家の近くに駅はありますか。",
+    hira:"いえ の ちかく に えき は あり ます か",
+    mp3:"q09_is_there_a_train_station_near_your_home.mp3"
+  },
+  {
+    en:"What uniforms do you see?",
+    jp:"どんな制服を見ますか。",
+    hira:"どんな せいふく を み ます か",
+    mp3:"q10_what_uniforms_do_you_see.mp3"
+  },
+  {
+    en:"Is there a restaurant you like?",
+    jp:"好きなレストランはありますか。",
+    hira:"すき な れすとらん は あり ます か",
+    mp3:"q11_is_there_a_restaurant_you_like.mp3"
+  },
+  {
+    en:"Are there books in your bag?",
+    jp:"かばんに本はありますか。",
+    hira:"かばん に ほん は あり ます か",
+    mp3:"q12_are_there_books_in_your_bag.mp3"
+  },
+  {
+    en:"What’s near your office or school?",
+    jp:"あなたの会社や学校の近くには何がありますか。",
+    hira:"あなた の かいしゃ や がっこう の ちかく に は なに が あり ます か",
+    mp3:"q13_whats_near_your_office_or_school.mp3"
+  },
+  {
+    en:"Is there something you always bring to work?",
+    jp:"仕事にいつも持っていくものはありますか。",
+    hira:"しごと に いつも もって いく もの は あり ます か",
+    mp3:"q14_is_there_something_you_always_bring_to_work.mp3"
+  },
+  {
+    en:"What’s in your pencil case?",
+    jp:"筆箱には何が入っていますか。",
+    hira:"ふでばこ に は なに が はいって います か",
+    mp3:"q15_whats_in_your_pencil_case.mp3"
+  }
+];
+
+
+
+
+
+function shuffle(a){
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+}
+shuffle(CARDS);
+
+let i=0,showBack=false;
+
+const card=document.getElementById('card');
+const frontFace=document.getElementById('frontFace');
+const backFace=document.getElementById('backFace');
+const frontTitle=document.getElementById('frontTitle');
+const backTitle=document.getElementById('backTitle');
+const backSub=document.getElementById('backSub');
+const sparkContainer=document.getElementById("sparkleContainer");
+
+function buildStripeBackground(colors){
+  const band=40;let stops=[];
+  colors.forEach((c,idx)=>{const start=idx*band;stops.push(`${c} ${start}px ${start+band}px`);});
+  const all=stops.concat(stops.map(s=>s.replace(/(\d+)px/g,(m,n)=>(+n+band*colors.length)+'px')));
+  return `repeating-linear-gradient(180deg,${all.join(',')})`;
+}
+
+function triggerSparkles(){
+  for(let n=0;n<28;n++){
+    const s=document.createElement("div");
+    s.className="sparkle";
+    s.style.left=Math.random()*100+"%";
+    s.style.bottom=(10+Math.random()*70)+"%";
+    s.style.transform=`scale(${0.6+Math.random()*1.4})`;
+    s.style.animationDelay=(Math.random()*0.25)+"s";
+    sparkContainer.appendChild(s);
+    setTimeout(()=>s.remove(),2200);
+  }
+}
+
+/* ✅ single reusable audio element (more reliable on Safari) */
+let sageAudio = new Audio();
+sageAudio.preload = "auto";
+
+async function speak(){
+  const c = CARDS[i];
+  if(!c || !c.mp3) return;
+
+  const src = AUDIO_BASE + c.mp3;
+
+  try{ sageAudio.pause(); }catch{}
+  try{ sageAudio.currentTime = 0; }catch{}
+  sageAudio.src = src;
+
+  try{
+    await sageAudio.play();
+    triggerSparkles();
+  }catch(err){
+    console.log("[Sage blocked/missing]", err, "src=", src);
+    /* If you want a visible error while testing:
+       alert("Sage failed: " + src);
+    */
+  }
+}
+
+function show(){
+  const c=CARDS[i];
+  const palette=PALETTES[i%PALETTES.length];
+  card.style.backgroundImage=buildStripeBackground(palette);
+
+  frontTitle.textContent=c.en;
+  backTitle.textContent=c.jp;
+  backSub.textContent=c.hira;
+
+  if(showBack){
+    frontFace.classList.replace("visible","hidden");
+    backFace.classList.replace("hidden","visible");
+  }else{
+    backFace.classList.replace("visible","hidden");
+    frontFace.classList.replace("hidden","visible");
+  }
+}
+
+document.getElementById('flipBtn').onclick=()=>{showBack=!showBack;show();};
+document.getElementById('nextBtn').onclick=()=>{i=(i+1)%CARDS.length;showBack=false;show();};
+document.getElementById('prevBtn').onclick=()=>{i=(i-1+CARDS.length)%CARDS.length;showBack=false;show();};
+document.getElementById('speakBtn').onclick=()=>{speak();};
+
+show();
+</script>
+
+<script src="./token.js"></script>
+</body>
+</html>
