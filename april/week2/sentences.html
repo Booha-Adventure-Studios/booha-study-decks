@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Booha Study Decks – March Week 2 – Sentences</title>
+<title>Booha Study Decks – April Week 2 – Sentences</title>
 <meta name="theme-color" content="#7c3aed">
 <link rel="icon" type="image/png" href="BoohaYellow.png">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&display=swap" rel="stylesheet" />
@@ -184,8 +184,8 @@ footer{margin:10px 0 24px;text-align:center;color:#d1d5db;font-family:'Cinzel',s
 
 <header>
   <h1>Booha Study Decks</h1>
-  <h2>March Week 2 – Sentences</h2>
-  <h3>3月第2週（Sentences）</h3>
+  <h2>April Week 2 – Sentences</h2>
+  <h3>4月第2週（Sentences）</h3>
 </header>
 
 
@@ -221,96 +221,97 @@ const AUDIO_BASE = "audio/sentences/";
 /* ✅ 15 items, each with its exact mp3 filename */
 const CARDS = [
   {
-    en:"I can sing well.",
-    jp:"上手に歌えます。",
-    hira:"じょうず に うたえ ます",
-    mp3:"s01_i_can_sing_well.mp3"
+    en:"There is a castle in Himeji.",
+    jp:"姫路には城があります。",
+    hira:"ひめじ に は しろ が あり ます",
+    mp3:"s01_there_is_a_castle_in_himeji.mp3"
   },
   {
-    en:"I can draw animals.",
-    jp:"動物の絵が描けます。",
-    hira:"どうぶつ の え が かけ ます",
-    mp3:"s02_i_can_draw_animals.mp3"
+    en:"There are many temples in Kyoto.",
+    jp:"京都には寺がたくさんあります。",
+    hira:"きょうと に は てら が たくさん あり ます",
+    mp3:"s02_there_are_many_temples_in_kyoto.mp3"
   },
   {
-    en:"I can cook Japanese food.",
-    jp:"和食を作れます。",
-    hira:"わしょく を つくれ ます",
-    mp3:"s03_i_can_cook_japanese_food.mp3"
+    en:"There is a big tower near the river.",
+    jp:"川の近くに大きなタワーがあります。",
+    hira:"かわ の ちかく に おおきな たわー が あり ます",
+    mp3:"s03_there_is_a_big_tower_near_the_river.mp3"
   },
   {
-    en:"I can use a computer.",
-    jp:"コンピュータを使えます。",
-    hira:"こんぴゅーた を つかえ ます",
-    mp3:"s04_i_can_use_a_computer.mp3"
+    en:"There are gardens behind the palace.",
+    jp:"宮殿のうしろに庭園があります。",
+    hira:"きゅうでん の うしろ に ていえん が あり ます",
+    mp3:"s04_there_are_gardens_behind_the_palace.mp3"
   },
   {
-    en:"I can fix small things.",
-    jp:"小さいものを直せます。",
-    hira:"ちいさい もの を なおせ ます",
-    mp3:"s05_i_can_fix_small_things.mp3"
+    en:"There is a museum on this street.",
+    jp:"この通りに博物館があります。",
+    hira:"この とおり に はくぶつかん が あり ます",
+    mp3:"s05_there_is_a_museum_on_this_street.mp3"
   },
   {
-    en:"I can play the piano.",
-    jp:"ピアノを弾けます。",
-    hira:"ぴあの を ひけ ます",
-    mp3:"s06_i_can_play_the_piano.mp3"
+    en:"There are shops around the square.",
+    jp:"広場のまわりに店があります。",
+    hira:"ひろば の まわり に みせ が あり ます",
+    mp3:"s06_there_are_shops_around_the_square.mp3"
   },
   {
-    en:"I can speak a little English.",
-    jp:"少し英語が話せます。",
-    hira:"すこし えいご が はなせ ます",
-    mp3:"s07_i_can_speak_a_little_english.mp3"
+    en:"There is a famous bridge in Osaka.",
+    jp:"大阪には有名な橋があります。",
+    hira:"おおさか に は ゆうめい な はし が あり ます",
+    mp3:"s07_there_is_a_famous_bridge_in_osaka.mp3"
   },
   {
-    en:"I can ride a bike.",
-    jp:"自転車に乗れます。",
-    hira:"じてんしゃ に のれ ます",
-    mp3:"s08_i_can_ride_a_bike.mp3"
+    en:"There are tickets at the entrance.",
+    jp:"入口にチケットがあります。",
+    hira:"いりぐち に ちけっと が あり ます",
+    mp3:"s08_there_are_tickets_at_the_entrance.mp3"
   },
   {
-    en:"I can build with blocks.",
-    jp:"ブロックで組み立てられます。",
-    hira:"ぶろっく で くみたてられ ます",
-    mp3:"s09_i_can_build_with_blocks.mp3"
+    en:"There is a statue in the park.",
+    jp:"公園に像があります。",
+    hira:"こうえん に ぞう が あり ます",
+    mp3:"s09_there_is_a_statue_in_the_park.mp3"
   },
   {
-    en:"I’m good at listening to others.",
-    jp:"人の話を聞くのが得意です。",
-    hira:"ひと の はなし を きく の が とくい です",
-    mp3:"s10_im_good_at_listening_to_others.mp3"
+    en:"There are cherry trees in the garden.",
+    jp:"庭園に桜の木があります。",
+    hira:"ていえん に さくら の き が あり ます",
+    mp3:"s10_there_are_cherry_trees_in_the_garden.mp3"
   },
   {
-    en:"I’m good at sports.",
-    jp:"スポーツが得意です。",
-    hira:"すぽーつ が とくい です",
-    mp3:"s11_im_good_at_sports.mp3"
+    en:"Is there a shrine near here?",
+    jp:"この近くに神社はありますか。",
+    hira:"この ちかく に じんじゃ は あり ます か",
+    mp3:"s11_is_there_a_shrine_near_here.mp3"
   },
   {
-    en:"I’m not good at math.",
-    jp:"数学は得意ではありません。",
-    hira:"すうがく は とくい では ありません",
-    mp3:"s12_im_not_good_at_math.mp3"
+    en:"Are there any landmarks in your town?",
+    jp:"あなたの町に名所はありますか。",
+    hira:"あなた の まち に めいしょ は あり ます か",
+    mp3:"s12_are_there_any_landmarks_in_your_town.mp3"
   },
   {
-    en:"He’s good at drawing manga.",
-    jp:"彼は漫画を描くのが得意です。",
-    hira:"かれ は まんが を かく の が とくい です",
-    mp3:"s13_hes_good_at_drawing_manga.mp3"
+    en:"There is a market on Sunday.",
+    jp:"日曜日に市場があります。",
+    hira:"にちようび に いちば が あり ます",
+    mp3:"s13_there_is_a_market_on_sunday.mp3"
   },
   {
-    en:"She’s good at singing.",
-    jp:"彼女は歌うのが得意です。",
-    hira:"かのじょ は うたう の が とくい です",
-    mp3:"s14_shes_good_at_singing.mp3"
+    en:"There are many tourists in summer.",
+    jp:"夏には観光客がたくさんいます。",
+    hira:"なつ に は かんこうきゃく が たくさん い ます",
+    mp3:"s14_there_are_many_tourists_in_summer.mp3"
   },
   {
-    en:"We can learn new skills together.",
-    jp:"いっしょに新しいスキルを学べます。",
-    hira:"いっしょ に あたらしい すきる を まなべ ます",
-    mp3:"s15_we_can_learn_new_skills_together.mp3"
+    en:"There is a good view from the tower.",
+    jp:"タワーからの景色は良いです。",
+    hira:"たわー から の けしき は よい です",
+    mp3:"s15_there_is_a_good_view_from_the_tower.mp3"
   }
 ];
+
 
 
 
